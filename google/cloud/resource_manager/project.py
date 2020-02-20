@@ -102,6 +102,20 @@ class Project(object):
         """URL for the project (ie, ``'/projects/purple-spaceship-123'``)."""
         return "/%s" % (self.full_name)
 
+    @property
+    def ancestry(self):
+        """Returns the project ancestry information.
+
+        See
+        https://cloud.google.com/resource-manager/reference/rest/v1beta1/projects/getAncestry
+        """
+        client = self._require_client(self._client)
+        resp = client._connection.api_request(
+            method="POST",
+            path='%s:getAncestry?alt=json' % (self.path),
+        )
+        return resp.get('ancestor', [])
+
     def _require_client(self, client):
         """Check client or verify over-ride.
 
