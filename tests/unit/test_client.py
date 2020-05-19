@@ -13,6 +13,7 @@
 # limitations under the License.
 
 import unittest
+from collections import OrderedDict
 
 import mock
 
@@ -298,7 +299,8 @@ class TestClient(unittest.TestCase):
         # Patch the connection with one we can easily control.
         client._connection = _Connection(PROJECTS_RESOURCE)
 
-        FILTER_PARAMS = {"id": "project-id", "name": "MyProjectName"}
+        # Use an ordered dict so the string is consistent
+        FILTER_PARAMS = OrderedDict({"id": "project-id", "name": "MyProjectName"})
         results = list(client.list_projects(filter_params=FILTER_PARAMS))
 
         (project,) = results
