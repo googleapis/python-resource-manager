@@ -299,8 +299,7 @@ class TestClient(unittest.TestCase):
         # Patch the connection with one we can easily control.
         client._connection = _Connection(PROJECTS_RESOURCE)
 
-        # Use an ordered dict so the string is consistent
-        FILTER_PARAMS = OrderedDict({"id": "project-id", "name": "MyProjectName"})
+        FILTER_PARAMS = {"id": "project-id", "name": "MyProjectName"}
         results = list(client.list_projects(filter_params=FILTER_PARAMS))
 
         (project,) = results
@@ -311,14 +310,15 @@ class TestClient(unittest.TestCase):
         # Check that the filter made it in the request.
         FLATTENED_FILTER_PARAMS = "id:project-id name:MyProjectName"
         (request,) = client._connection._requested
-        self.assertEqual(
-            request,
-            {
-                "path": "/projects",
-                "method": "GET",
-                "query_params": {"filter": FLATTENED_FILTER_PARAMS},
-            },
-        )
+        self.assertEquals(len(request.keys()), 3)
+        self.assertEqual(request["path"], "/projects")
+        self.assertEqual(request["method"], "GET")
+
+        # Filter param order can change (since it is in a dict)
+        request_filter_params = request["query_params"]["filter"].split()
+        self.assertEquals(len(request_filter_params), 2)
+        self.assertTrue("id:project-id" in request_filter_params)
+        self.assertTrue("name:MyProjectName" in request_filter_params)
 
     def test_page_empty_response(self):
         from google.api_core import page_iterator
