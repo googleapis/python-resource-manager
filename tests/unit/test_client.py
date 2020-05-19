@@ -13,7 +13,6 @@
 # limitations under the License.
 
 import unittest
-from collections import OrderedDict
 
 import mock
 
@@ -308,7 +307,6 @@ class TestClient(unittest.TestCase):
         self.assertEqual(project.status, STATUS)
 
         # Check that the filter made it in the request.
-        FLATTENED_FILTER_PARAMS = "id:project-id name:MyProjectName"
         (request,) = client._connection._requested
         self.assertEquals(len(request.keys()), 3)
         self.assertEqual(request["path"], "/projects")
