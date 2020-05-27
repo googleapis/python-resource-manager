@@ -1,11 +1,17 @@
 {
-  "updateTime": "2020-02-04T22:26:28.122324Z",
   "sources": [
     {
-      "template": {
-        "name": "python_split_library",
-        "origin": "synthtool.gcp",
-        "version": "2019.10.17"
+      "git": {
+        "name": ".",
+        "remote": "https://github.com/googleapis/python-resource-manager.git",
+        "sha": "b876d04e64bc3daec6dbd61ead93ce5b6bbec69c"
+      }
+    },
+    {
+      "git": {
+        "name": "synthtool",
+        "remote": "https://github.com/googleapis/synthtool.git",
+        "sha": "470789cee75ce93c41348ad6aa4c49363a80399b"
       }
     }
   ]
