@@ -4,7 +4,7 @@
       "git": {
         "name": ".",
         "remote": "https://github.com/googleapis/python-resource-manager.git",
-        "sha": "1a44d9affa737192c6376ac52d3d9016b8d34554"
+        "sha": "695d01802668b12085d0fb9934abab45fd4ccfa1"
       }
     },
     {
