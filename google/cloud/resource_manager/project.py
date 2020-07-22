@@ -84,6 +84,7 @@ class Project(object):
     def set_properties_from_api_repr(self, resource):
         """Update specific properties from its API representation."""
         self.name = resource.get("name")
+        self.project_id = resource.get("projectId")
         self.number = resource["projectNumber"]
         self.labels = resource.get("labels", {})
         self.status = resource["lifecycleState"]
