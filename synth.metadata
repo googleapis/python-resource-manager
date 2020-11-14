@@ -4,14 +4,14 @@
       "git": {
         "name": ".",
         "remote": "https://github.com/googleapis/python-resource-manager.git",
-        "sha": "c329170616bee0f001ed1729cf432f89082e33d2"
+        "sha": "6d0e0dc45bfebdb316f46e846941cc1240d3a0ed"
       }
     },
     {
       "git": {
         "name": "synthtool",
         "remote": "https://github.com/googleapis/synthtool.git",
-        "sha": "bfcdbe0da977b2de6c1c0471bb6dc2f1e13bf669"
+        "sha": "4f8f5dc24af79694887385015294e4dbb214c352"
       }
     }
   ],
@@ -28,7 +28,10 @@
     ".kokoro/build.sh",
     ".kokoro/continuous/common.cfg",
     ".kokoro/continuous/continuous.cfg",
+    ".kokoro/docker/docs/Dockerfile",
+    ".kokoro/docker/docs/fetch_gpg_keys.sh",
     ".kokoro/docs/common.cfg",
+    ".kokoro/docs/docs-presubmit.cfg",
     ".kokoro/docs/docs.cfg",
     ".kokoro/presubmit/common.cfg",
     ".kokoro/presubmit/presubmit.cfg",
@@ -54,6 +57,8 @@
     ".kokoro/samples/python3.8/presubmit.cfg",
     ".kokoro/test-samples.sh",
     ".kokoro/trampoline.sh",
+    ".kokoro/trampoline_v2.sh",
+    ".trampolinerc",
     "CODE_OF_CONDUCT.md",
     "CONTRIBUTING.rst",
     "LICENSE",
