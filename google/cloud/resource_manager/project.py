@@ -102,12 +102,14 @@ class Project(object):
         """URL for the project (ie, ``'/projects/purple-spaceship-123'``)."""
         return "/%s" % (self.full_name)
 
-    @property
-    def ancestry(self):
+    def list_ancestors(self):
         """Returns the project ancestry information.
 
         See
         https://cloud.google.com/resource-manager/reference/rest/v1beta1/projects/getAncestry
+
+        :rtype: list
+        :returns: List of ancestors in the resource manager hierarchy.
         """
         client = self._require_client(self._client)
         resp = client._connection.api_request(

@@ -312,8 +312,8 @@ class TestProject(unittest.TestCase):
         client = _Client(connection=connection)
         project = self._make_one(PROJECT_ID, client)
 
-        self.assertEqual(project.ancestry, [])
-        
+        self.assertEqual(project.list_ancestors(), [])
+
     def test_fetch_project_ancestry_hit(self):
         PROJECT_ID = 'project-id'
         ANCESTORS = [
@@ -327,7 +327,7 @@ class TestProject(unittest.TestCase):
         client = _Client(connection=connection)
         project = self._make_one(PROJECT_ID, client)
 
-        self.assertEqual(project.ancestry, ANCESTORS)
+        self.assertEqual(project.list_ancestors(), ANCESTORS)
 
 class _Connection(object):
     def __init__(self, *responses):
