@@ -111,8 +111,7 @@ class Project(object):
         """
         client = self._require_client(self._client)
         resp = client._connection.api_request(
-            method="POST",
-            path='%s:getAncestry?alt=json' % (self.path),
+            method="POST", path='%s:getAncestry' % (self.path),
         )
         return resp.get('ancestor', [])
 
