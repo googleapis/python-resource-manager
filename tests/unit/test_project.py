@@ -304,23 +304,30 @@ class TestProject(unittest.TestCase):
         expected_get_request = {"method": "GET", "path": project.path}
         self.assertEqual(get_request, expected_get_request)
 
-    def test_fetch_project_ancestry(self):
+    def test_fetch_project_ancestry_miss(self):
         PROJECT_ID = 'project-id'
-        GET_ANCESTRY_RESPONSE = {
-            'ancestor': [
-                {'resourceId': {'type': 'project', 'id': PROJECT_ID}},
-                {'resourceId': {'type': 'folder', 'id': '012345678901'}},
-                {'resourceId': {'type': 'folder', 'id': '987654321098'}},
-                {'resourceId': {'type': 'organization', 'id': '555555555555'}},
-            ],
-        }
+        GET_ANCESTRY_RESPONSE = {}
 
         connection = _Connection(GET_ANCESTRY_RESPONSE)
         client = _Client(connection=connection)
         project = self._make_one(PROJECT_ID, client)
-        ancestry = project.ancestry
-        self.assertEqual(ancestry, GET_ANCESTRY_RESPONSE['ancestor'])
 
+        self.assertEqual(project.ancestry, [])
+        
+    def test_fetch_project_ancestry_hit(self):
+        PROJECT_ID = 'project-id'
+        ANCESTORS = [
+                {'resourceId': {'type': 'project', 'id': PROJECT_ID}},
+                {'resourceId': {'type': 'folder', 'id': '012345678901'}},
+                {'resourceId': {'type': 'folder', 'id': '987654321098'}},
+                {'resourceId': {'type': 'organization', 'id': '555555555555'}},
+            ]
+        GET_ANCESTRY_RESPONSE = {'ancestor': ANCESTORS}
+        connection = _Connection(GET_ANCESTRY_RESPONSE)
+        client = _Client(connection=connection)
+        project = self._make_one(PROJECT_ID, client)
+
+        self.assertEqual(project.ancestry, ANCESTORS)
 
 class _Connection(object):
     def __init__(self, *responses):
