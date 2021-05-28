@@ -4,6 +4,13 @@
 
 [1]: https://pypi.org/project/google-cloud-resource-manager/#history
 
+### [0.30.4](https://www.github.com/googleapis/python-resource-manager/compare/v0.30.3...v0.30.4) (2021-05-28)
+
+
+### Bug Fixes
+
+* require google-cloud-core >= 1.3.0 ([#43](https://www.github.com/googleapis/python-resource-manager/issues/43)) ([16df2d0](https://www.github.com/googleapis/python-resource-manager/commit/16df2d064b25ac75234cbbd736b16fba53a51f2d))
+
 ### [0.30.3](https://www.github.com/googleapis/python-resource-manager/compare/v0.30.2...v0.30.3) (2020-12-10)
 
 
