@@ -7,14 +7,14 @@
 ### [1.0.2](https://www.github.com/googleapis/python-resource-manager/compare/v1.0.1...v1.0.2) (2021-07-27)
 
 
-### Features
-
-* add Samples section to CONTRIBUTING.rst ([#85](https://www.github.com/googleapis/python-resource-manager/issues/85)) ([d0f63b8](https://www.github.com/googleapis/python-resource-manager/commit/d0f63b8201cbd19938cb021e9457c421b19e9c78))
-
-
 ### Bug Fixes
 
 * enable self signed jwt for grpc ([#92](https://www.github.com/googleapis/python-resource-manager/issues/92)) ([9df35b3](https://www.github.com/googleapis/python-resource-manager/commit/9df35b32a75fe4c6c5e427b42d49222303f8ee5f))
+
+
+### Documentation
+
+* add Samples section to CONTRIBUTING.rst ([#85](https://www.github.com/googleapis/python-resource-manager/issues/85)) ([d0f63b8](https://www.github.com/googleapis/python-resource-manager/commit/d0f63b8201cbd19938cb021e9457c421b19e9c78))
 
 
 ### Miscellaneous Chores
