@@ -11,6 +11,6 @@
     "distribution_name": "google-cloud-resource-manager",
     "api_id": "cloudresourcemanager.googleapis.com",
     "requires_billing": true,
-    "default_version": "",
+    "default_version": "v3",
     "codeowner_team": ""
 }
