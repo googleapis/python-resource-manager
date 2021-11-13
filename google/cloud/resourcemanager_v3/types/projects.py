@@ -230,7 +230,7 @@ class SearchProjectsRequest(proto.Message):
             ::
 
                | Field                   | Description                                  |
-               |-------------------------\|----------------------------------------------|
+               |-------------------------|----------------------------------------------|
                | displayName, name       | Filters by displayName.                      |
                | parent                  | Project's parent. (for example: folders/123,
                organizations/*) Prefer parent field over parent.type and parent.id. |
@@ -249,7 +249,7 @@ class SearchProjectsRequest(proto.Message):
             ::
 
                | Query            | Description                                         |
-               |------------------\|-----------------------------------------------------|
+               |------------------|-----------------------------------------------------|
                | name:how*        | The project's name starts with "how".               |
                | name:Howl        | The project's name is `Howl` or `howl`.             |
                | name:HOWL        | Equivalent to above.                                |
