@@ -23,7 +23,7 @@ import shutil
 import nox
 
 
-BLACK_VERSION = "black==19.10b0"
+BLACK_VERSION = "black==21.12b0"
 BLACK_PATHS = ["docs", "google", "tests", "noxfile.py", "setup.py"]
 
 DEFAULT_PYTHON_VERSION = "3.8"
@@ -38,7 +38,7 @@ def lint(session):
     Returns a failure if the linters find linting errors or sufficiently
     serious code quality issues.
     """
-    session.install("flake8", BLACK_VERSION)
+    session.install("flake8", BLACK_VERSION, "click<8.1")
     session.run(
         "black", "--check", *BLACK_PATHS,
     )
@@ -55,7 +55,7 @@ def blacken(session):
     That run uses an image that doesn't have 3.6 installed. Before updating this
     check the state of the `gcp_ubuntu_config` we use for that Kokoro run.
     """
-    session.install(BLACK_VERSION)
+    session.install(BLACK_VERSION, "click<8.1")
     session.run(
         "black", *BLACK_PATHS,
     )
@@ -172,9 +172,9 @@ def docfx(session):
     """Build the docfx yaml files for this library."""
 
     session.install("-e", ".")
-    # sphinx-docfx-yaml supports up to sphinx version 1.5.5.
-    # https://github.com/docascode/sphinx-docfx-yaml/issues/97
-    session.install("sphinx==1.5.5", "alabaster", "recommonmark", "sphinx-docfx-yaml")
+    session.install(
+        "sphinx==4.0.1", "alabaster", "recommonmark", "gcp-sphinx-docfx-yaml"
+    )
 
     shutil.rmtree(os.path.join("docs", "_build"), ignore_errors=True)
     session.run(
