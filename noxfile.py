@@ -30,6 +30,9 @@ DEFAULT_PYTHON_VERSION = "3.8"
 SYSTEM_TEST_PYTHON_VERSIONS = ["2.7", "3.8"]
 UNIT_TEST_PYTHON_VERSIONS = ["2.7", "3.6", "3.7", "3.8", "3.9"]
 
+# Error if a python version is missing
+nox.options.error_on_missing_interpreters = True
+
 
 @nox.session(python=DEFAULT_PYTHON_VERSION)
 def lint(session):
