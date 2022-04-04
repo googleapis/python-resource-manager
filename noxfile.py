@@ -40,12 +40,14 @@ def lint(session):
     """
     session.install("flake8", BLACK_VERSION, "click<8.1")
     session.run(
-        "black", "--check", *BLACK_PATHS,
+        "black",
+        "--check",
+        *BLACK_PATHS,
     )
     session.run("flake8", "google", "tests")
 
 
-@nox.session(python="3.6")
+@nox.session(python=DEFAULT_PYTHON_VERSION)
 def blacken(session):
     """Run black.
 
@@ -57,7 +59,8 @@ def blacken(session):
     """
     session.install(BLACK_VERSION, "click<8.1")
     session.run(
-        "black", *BLACK_PATHS,
+        "black",
+        *BLACK_PATHS,
     )
 
 
@@ -71,7 +74,9 @@ def lint_setup_py(session):
 def default(session):
     # Install all test dependencies, then install this package in-place.
     session.install(
-        "mock", "pytest", "pytest-cov",
+        "mock",
+        "pytest",
+        "pytest-cov",
     )
     session.install("-e", ".")
 
@@ -121,7 +126,9 @@ def system(session):
     # Install all test dependencies, then install this package into the
     # virtualenv's dist-packages.
     session.install(
-        "mock", "pytest", "google-cloud-testutils",
+        "mock",
+        "pytest",
+        "google-cloud-testutils",
     )
     session.install("-e", ".")
 
@@ -158,41 +165,6 @@ def docs(session):
         "-W",  # warnings as errors
         "-T",  # show full traceback on exception
         "-N",  # no colors
-        "-b",
-        "html",
-        "-d",
-        os.path.join("docs", "_build", "doctrees", ""),
-        os.path.join("docs", ""),
-        os.path.join("docs", "_build", "html", ""),
-    )
-
-
-@nox.session(python=DEFAULT_PYTHON_VERSION)
-def docfx(session):
-    """Build the docfx yaml files for this library."""
-
-    session.install("-e", ".")
-    session.install(
-        "sphinx==4.0.1", "alabaster", "recommonmark", "gcp-sphinx-docfx-yaml"
-    )
-
-    shutil.rmtree(os.path.join("docs", "_build"), ignore_errors=True)
-    session.run(
-        "sphinx-build",
-        "-T",  # show full traceback on exception
-        "-N",  # no colors
-        "-D",
-        (
-            "extensions=sphinx.ext.autodoc,"
-            "sphinx.ext.autosummary,"
-            "docfx_yaml.extension,"
-            "sphinx.ext.intersphinx,"
-            "sphinx.ext.coverage,"
-            "sphinx.ext.napoleon,"
-            "sphinx.ext.todo,"
-            "sphinx.ext.viewcode,"
-            "recommonmark"
-        ),
         "-b",
         "html",
         "-d",
