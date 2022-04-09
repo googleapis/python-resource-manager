@@ -16,7 +16,7 @@
 from collections import OrderedDict
 import os
 import re
-from typing import Dict, Optional, Sequence, Tuple, Type, Union
+from typing import Dict, Mapping, Optional, Sequence, Tuple, Type, Union
 import pkg_resources
 
 from google.api_core import client_options as client_options_lib
@@ -442,7 +442,7 @@ class TagBindingsClient(metaclass=TagBindingsClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import resourcemanager_v3
+                    from google.cloud import resourcemanager_v3
 
             def sample_list_tag_bindings():
                 # Create a client
@@ -547,7 +547,7 @@ class TagBindingsClient(metaclass=TagBindingsClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import resourcemanager_v3
+                    from google.cloud import resourcemanager_v3
 
             def sample_create_tag_binding():
                 # Create a client
@@ -652,7 +652,7 @@ class TagBindingsClient(metaclass=TagBindingsClientMeta):
 
         .. code-block:: python
 
-            from google.cloud import resourcemanager_v3
+                    from google.cloud import resourcemanager_v3
 
             def sample_delete_tag_binding():
                 # Create a client
