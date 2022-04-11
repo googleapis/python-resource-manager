@@ -16,7 +16,7 @@
 from collections import OrderedDict
 import functools
 import re
-from typing import Dict, Optional, Sequence, Tuple, Type, Union
+from typing import Dict, Mapping, Optional, Sequence, Tuple, Type, Union
 import pkg_resources
 
 from google.api_core.client_options import ClientOptions
@@ -220,7 +220,6 @@ class TagBindingsAsyncClient:
         name:
         https://cloud.google.com/apis/design/resource_names#full_resource_name
 
-
         .. code-block:: python
 
             from google.cloud import resourcemanager_v3
@@ -294,7 +293,7 @@ class TagBindingsAsyncClient:
                 maximum=60.0,
                 multiplier=1.3,
                 predicate=retries.if_exception_type(
-                    core_exceptions.ServiceUnavailable,
+                    core_exceptions.GoogleAPICallError,
                 ),
                 deadline=60.0,
             ),
@@ -333,7 +332,6 @@ class TagBindingsAsyncClient:
     ) -> operation_async.AsyncOperation:
         r"""Creates a TagBinding between a TagValue and a cloud
         resource (currently project, folder, or organization).
-
 
         .. code-block:: python
 
