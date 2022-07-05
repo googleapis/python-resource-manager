@@ -3722,7 +3722,6 @@ def test_folders_transport_auth_adc(transport_class):
     [
         transports.FoldersGrpcTransport,
         transports.FoldersGrpcAsyncIOTransport,
-        transports.FoldersRestTransport,
     ],
 )
 def test_folders_transport_auth_gdch_credentials(transport_class):

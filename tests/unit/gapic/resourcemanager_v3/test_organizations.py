@@ -2320,7 +2320,6 @@ def test_organizations_transport_auth_adc(transport_class):
     [
         transports.OrganizationsGrpcTransport,
         transports.OrganizationsGrpcAsyncIOTransport,
-        transports.OrganizationsRestTransport,
     ],
 )
 def test_organizations_transport_auth_gdch_credentials(transport_class):

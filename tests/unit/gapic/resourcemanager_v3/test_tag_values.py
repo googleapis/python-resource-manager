@@ -2924,7 +2924,6 @@ def test_tag_values_transport_auth_adc(transport_class):
     [
         transports.TagValuesGrpcTransport,
         transports.TagValuesGrpcAsyncIOTransport,
-        transports.TagValuesRestTransport,
     ],
 )
 def test_tag_values_transport_auth_gdch_credentials(transport_class):

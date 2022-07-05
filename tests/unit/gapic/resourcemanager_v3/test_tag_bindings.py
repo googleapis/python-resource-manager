@@ -1698,7 +1698,6 @@ def test_tag_bindings_transport_auth_adc(transport_class):
     [
         transports.TagBindingsGrpcTransport,
         transports.TagBindingsGrpcAsyncIOTransport,
-        transports.TagBindingsRestTransport,
     ],
 )
 def test_tag_bindings_transport_auth_gdch_credentials(transport_class):
