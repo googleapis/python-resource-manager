@@ -16,7 +16,17 @@
 from collections import OrderedDict
 import functools
 import re
-from typing import Dict, Mapping, Optional, Sequence, Tuple, Type, Union
+from typing import (
+    Dict,
+    Mapping,
+    MutableMapping,
+    MutableSequence,
+    Optional,
+    Sequence,
+    Tuple,
+    Type,
+    Union,
+)
 
 from google.api_core import exceptions as core_exceptions
 from google.api_core import gapic_v1
@@ -162,9 +172,9 @@ class TagBindingsAsyncClient:
     def __init__(
         self,
         *,
-        credentials: ga_credentials.Credentials = None,
+        credentials: Optional[ga_credentials.Credentials] = None,
         transport: Union[str, TagBindingsTransport] = "grpc_asyncio",
-        client_options: ClientOptions = None,
+        client_options: Optional[ClientOptions] = None,
         client_info: gapic_v1.client_info.ClientInfo = DEFAULT_CLIENT_INFO,
     ) -> None:
         """Instantiates the tag bindings client.
@@ -208,11 +218,11 @@ class TagBindingsAsyncClient:
 
     async def list_tag_bindings(
         self,
-        request: Union[tag_bindings.ListTagBindingsRequest, dict] = None,
+        request: Optional[Union[tag_bindings.ListTagBindingsRequest, dict]] = None,
         *,
-        parent: str = None,
+        parent: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> pagers.ListTagBindingsAsyncPager:
         r"""Lists the TagBindings for the given cloud resource, as specified
@@ -250,7 +260,7 @@ class TagBindingsAsyncClient:
                     print(response)
 
         Args:
-            request (Union[google.cloud.resourcemanager_v3.types.ListTagBindingsRequest, dict]):
+            request (Optional[Union[google.cloud.resourcemanager_v3.types.ListTagBindingsRequest, dict]]):
                 The request object. The request message to list all
                 TagBindings for a parent.
             parent (:class:`str`):
@@ -332,11 +342,11 @@ class TagBindingsAsyncClient:
 
     async def create_tag_binding(
         self,
-        request: Union[tag_bindings.CreateTagBindingRequest, dict] = None,
+        request: Optional[Union[tag_bindings.CreateTagBindingRequest, dict]] = None,
         *,
-        tag_binding: tag_bindings.TagBinding = None,
+        tag_binding: Optional[tag_bindings.TagBinding] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> operation_async.AsyncOperation:
         r"""Creates a TagBinding between a TagValue and a cloud
@@ -372,7 +382,7 @@ class TagBindingsAsyncClient:
                 print(response)
 
         Args:
-            request (Union[google.cloud.resourcemanager_v3.types.CreateTagBindingRequest, dict]):
+            request (Optional[Union[google.cloud.resourcemanager_v3.types.CreateTagBindingRequest, dict]]):
                 The request object. The request message to create a
                 TagBinding.
             tag_binding (:class:`google.cloud.resourcemanager_v3.types.TagBinding`):
@@ -445,11 +455,11 @@ class TagBindingsAsyncClient:
 
     async def delete_tag_binding(
         self,
-        request: Union[tag_bindings.DeleteTagBindingRequest, dict] = None,
+        request: Optional[Union[tag_bindings.DeleteTagBindingRequest, dict]] = None,
         *,
-        name: str = None,
+        name: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> operation_async.AsyncOperation:
         r"""Deletes a TagBinding.
@@ -485,7 +495,7 @@ class TagBindingsAsyncClient:
                 print(response)
 
         Args:
-            request (Union[google.cloud.resourcemanager_v3.types.DeleteTagBindingRequest, dict]):
+            request (Optional[Union[google.cloud.resourcemanager_v3.types.DeleteTagBindingRequest, dict]]):
                 The request object. The request message to delete a
                 TagBinding.
             name (:class:`str`):

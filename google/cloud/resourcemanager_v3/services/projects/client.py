@@ -16,7 +16,18 @@
 from collections import OrderedDict
 import os
 import re
-from typing import Dict, Mapping, Optional, Sequence, Tuple, Type, Union, cast
+from typing import (
+    Dict,
+    Mapping,
+    MutableMapping,
+    MutableSequence,
+    Optional,
+    Sequence,
+    Tuple,
+    Type,
+    Union,
+    cast,
+)
 
 from google.api_core import client_options as client_options_lib
 from google.api_core import exceptions as core_exceptions
@@ -63,7 +74,7 @@ class ProjectsClientMeta(type):
 
     def get_transport_class(
         cls,
-        label: str = None,
+        label: Optional[str] = None,
     ) -> Type[ProjectsTransport]:
         """Returns an appropriate transport class.
 
@@ -331,7 +342,7 @@ class ProjectsClient(metaclass=ProjectsClientMeta):
         self,
         *,
         credentials: Optional[ga_credentials.Credentials] = None,
-        transport: Union[str, ProjectsTransport, None] = None,
+        transport: Optional[Union[str, ProjectsTransport]] = None,
         client_options: Optional[Union[client_options_lib.ClientOptions, dict]] = None,
         client_info: gapic_v1.client_info.ClientInfo = DEFAULT_CLIENT_INFO,
     ) -> None:
@@ -429,11 +440,11 @@ class ProjectsClient(metaclass=ProjectsClientMeta):
 
     def get_project(
         self,
-        request: Union[projects.GetProjectRequest, dict] = None,
+        request: Optional[Union[projects.GetProjectRequest, dict]] = None,
         *,
-        name: str = None,
+        name: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> projects.Project:
         r"""Retrieves the project identified by the specified ``name`` (for
@@ -538,11 +549,11 @@ class ProjectsClient(metaclass=ProjectsClientMeta):
 
     def list_projects(
         self,
-        request: Union[projects.ListProjectsRequest, dict] = None,
+        request: Optional[Union[projects.ListProjectsRequest, dict]] = None,
         *,
-        parent: str = None,
+        parent: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> pagers.ListProjectsPager:
         r"""Lists projects that are direct children of the specified folder
@@ -665,11 +676,11 @@ class ProjectsClient(metaclass=ProjectsClientMeta):
 
     def search_projects(
         self,
-        request: Union[projects.SearchProjectsRequest, dict] = None,
+        request: Optional[Union[projects.SearchProjectsRequest, dict]] = None,
         *,
-        query: str = None,
+        query: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> pagers.SearchProjectsPager:
         r"""Search for projects that the caller has both
@@ -830,11 +841,11 @@ class ProjectsClient(metaclass=ProjectsClientMeta):
 
     def create_project(
         self,
-        request: Union[projects.CreateProjectRequest, dict] = None,
+        request: Optional[Union[projects.CreateProjectRequest, dict]] = None,
         *,
-        project: projects.Project = None,
+        project: Optional[projects.Project] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> operation.Operation:
         r"""Request that a new project be created. The result is an
@@ -954,12 +965,12 @@ class ProjectsClient(metaclass=ProjectsClientMeta):
 
     def update_project(
         self,
-        request: Union[projects.UpdateProjectRequest, dict] = None,
+        request: Optional[Union[projects.UpdateProjectRequest, dict]] = None,
         *,
-        project: projects.Project = None,
-        update_mask: field_mask_pb2.FieldMask = None,
+        project: Optional[projects.Project] = None,
+        update_mask: Optional[field_mask_pb2.FieldMask] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> operation.Operation:
         r"""Updates the ``display_name`` and labels of the project
@@ -1094,12 +1105,12 @@ class ProjectsClient(metaclass=ProjectsClientMeta):
 
     def move_project(
         self,
-        request: Union[projects.MoveProjectRequest, dict] = None,
+        request: Optional[Union[projects.MoveProjectRequest, dict]] = None,
         *,
-        name: str = None,
-        destination_parent: str = None,
+        name: Optional[str] = None,
+        destination_parent: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> operation.Operation:
         r"""Move a project to another place in your resource hierarchy,
@@ -1234,11 +1245,11 @@ class ProjectsClient(metaclass=ProjectsClientMeta):
 
     def delete_project(
         self,
-        request: Union[projects.DeleteProjectRequest, dict] = None,
+        request: Optional[Union[projects.DeleteProjectRequest, dict]] = None,
         *,
-        name: str = None,
+        name: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> operation.Operation:
         r"""Marks the project identified by the specified ``name`` (for
@@ -1385,11 +1396,11 @@ class ProjectsClient(metaclass=ProjectsClientMeta):
 
     def undelete_project(
         self,
-        request: Union[projects.UndeleteProjectRequest, dict] = None,
+        request: Optional[Union[projects.UndeleteProjectRequest, dict]] = None,
         *,
-        name: str = None,
+        name: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> operation.Operation:
         r"""Restores the project identified by the specified ``name`` (for
@@ -1513,11 +1524,11 @@ class ProjectsClient(metaclass=ProjectsClientMeta):
 
     def get_iam_policy(
         self,
-        request: Union[iam_policy_pb2.GetIamPolicyRequest, dict] = None,
+        request: Optional[Union[iam_policy_pb2.GetIamPolicyRequest, dict]] = None,
         *,
-        resource: str = None,
+        resource: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> policy_pb2.Policy:
         r"""Returns the IAM access control policy for the
@@ -1678,11 +1689,11 @@ class ProjectsClient(metaclass=ProjectsClientMeta):
 
     def set_iam_policy(
         self,
-        request: Union[iam_policy_pb2.SetIamPolicyRequest, dict] = None,
+        request: Optional[Union[iam_policy_pb2.SetIamPolicyRequest, dict]] = None,
         *,
-        resource: str = None,
+        resource: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> policy_pb2.Policy:
         r"""Sets the IAM access control policy for the specified project.
@@ -1892,12 +1903,12 @@ class ProjectsClient(metaclass=ProjectsClientMeta):
 
     def test_iam_permissions(
         self,
-        request: Union[iam_policy_pb2.TestIamPermissionsRequest, dict] = None,
+        request: Optional[Union[iam_policy_pb2.TestIamPermissionsRequest, dict]] = None,
         *,
-        resource: str = None,
-        permissions: Sequence[str] = None,
+        resource: Optional[str] = None,
+        permissions: Optional[MutableSequence[str]] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> iam_policy_pb2.TestIamPermissionsResponse:
         r"""Returns permissions that a caller has on the
@@ -1944,7 +1955,7 @@ class ProjectsClient(metaclass=ProjectsClientMeta):
                 This corresponds to the ``resource`` field
                 on the ``request`` instance; if ``request`` is provided, this
                 should not be set.
-            permissions (Sequence[str]):
+            permissions (MutableSequence[str]):
                 The set of permissions to check for the ``resource``.
                 Permissions with wildcards (such as '*' or 'storage.*')
                 are not allowed. For more information see `IAM

@@ -16,7 +16,18 @@
 from collections import OrderedDict
 import os
 import re
-from typing import Dict, Mapping, Optional, Sequence, Tuple, Type, Union, cast
+from typing import (
+    Dict,
+    Mapping,
+    MutableMapping,
+    MutableSequence,
+    Optional,
+    Sequence,
+    Tuple,
+    Type,
+    Union,
+    cast,
+)
 
 from google.api_core import client_options as client_options_lib
 from google.api_core import exceptions as core_exceptions
@@ -63,7 +74,7 @@ class TagKeysClientMeta(type):
 
     def get_transport_class(
         cls,
-        label: str = None,
+        label: Optional[str] = None,
     ) -> Type[TagKeysTransport]:
         """Returns an appropriate transport class.
 
@@ -331,7 +342,7 @@ class TagKeysClient(metaclass=TagKeysClientMeta):
         self,
         *,
         credentials: Optional[ga_credentials.Credentials] = None,
-        transport: Union[str, TagKeysTransport, None] = None,
+        transport: Optional[Union[str, TagKeysTransport]] = None,
         client_options: Optional[Union[client_options_lib.ClientOptions, dict]] = None,
         client_info: gapic_v1.client_info.ClientInfo = DEFAULT_CLIENT_INFO,
     ) -> None:
@@ -429,11 +440,11 @@ class TagKeysClient(metaclass=TagKeysClientMeta):
 
     def list_tag_keys(
         self,
-        request: Union[tag_keys.ListTagKeysRequest, dict] = None,
+        request: Optional[Union[tag_keys.ListTagKeysRequest, dict]] = None,
         *,
-        parent: str = None,
+        parent: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> pagers.ListTagKeysPager:
         r"""Lists all TagKeys for a parent resource.
@@ -538,11 +549,11 @@ class TagKeysClient(metaclass=TagKeysClientMeta):
 
     def get_tag_key(
         self,
-        request: Union[tag_keys.GetTagKeyRequest, dict] = None,
+        request: Optional[Union[tag_keys.GetTagKeyRequest, dict]] = None,
         *,
-        name: str = None,
+        name: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> tag_keys.TagKey:
         r"""Retrieves a TagKey. This method will return
@@ -642,11 +653,11 @@ class TagKeysClient(metaclass=TagKeysClientMeta):
 
     def create_tag_key(
         self,
-        request: Union[tag_keys.CreateTagKeyRequest, dict] = None,
+        request: Optional[Union[tag_keys.CreateTagKeyRequest, dict]] = None,
         *,
-        tag_key: tag_keys.TagKey = None,
+        tag_key: Optional[tag_keys.TagKey] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> operation.Operation:
         r"""Creates a new TagKey. If another request with the
@@ -761,12 +772,12 @@ class TagKeysClient(metaclass=TagKeysClientMeta):
 
     def update_tag_key(
         self,
-        request: Union[tag_keys.UpdateTagKeyRequest, dict] = None,
+        request: Optional[Union[tag_keys.UpdateTagKeyRequest, dict]] = None,
         *,
-        tag_key: tag_keys.TagKey = None,
-        update_mask: field_mask_pb2.FieldMask = None,
+        tag_key: Optional[tag_keys.TagKey] = None,
+        update_mask: Optional[field_mask_pb2.FieldMask] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> operation.Operation:
         r"""Updates the attributes of the TagKey resource.
@@ -898,11 +909,11 @@ class TagKeysClient(metaclass=TagKeysClientMeta):
 
     def delete_tag_key(
         self,
-        request: Union[tag_keys.DeleteTagKeyRequest, dict] = None,
+        request: Optional[Union[tag_keys.DeleteTagKeyRequest, dict]] = None,
         *,
-        name: str = None,
+        name: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> operation.Operation:
         r"""Deletes a TagKey. The TagKey cannot be deleted if it
@@ -1018,11 +1029,11 @@ class TagKeysClient(metaclass=TagKeysClientMeta):
 
     def get_iam_policy(
         self,
-        request: Union[iam_policy_pb2.GetIamPolicyRequest, dict] = None,
+        request: Optional[Union[iam_policy_pb2.GetIamPolicyRequest, dict]] = None,
         *,
-        resource: str = None,
+        resource: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> policy_pb2.Policy:
         r"""Gets the access control policy for a TagKey. The returned policy
@@ -1186,11 +1197,11 @@ class TagKeysClient(metaclass=TagKeysClientMeta):
 
     def set_iam_policy(
         self,
-        request: Union[iam_policy_pb2.SetIamPolicyRequest, dict] = None,
+        request: Optional[Union[iam_policy_pb2.SetIamPolicyRequest, dict]] = None,
         *,
-        resource: str = None,
+        resource: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> policy_pb2.Policy:
         r"""Sets the access control policy on a TagKey, replacing any
@@ -1353,12 +1364,12 @@ class TagKeysClient(metaclass=TagKeysClientMeta):
 
     def test_iam_permissions(
         self,
-        request: Union[iam_policy_pb2.TestIamPermissionsRequest, dict] = None,
+        request: Optional[Union[iam_policy_pb2.TestIamPermissionsRequest, dict]] = None,
         *,
-        resource: str = None,
-        permissions: Sequence[str] = None,
+        resource: Optional[str] = None,
+        permissions: Optional[MutableSequence[str]] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> iam_policy_pb2.TestIamPermissionsResponse:
         r"""Returns permissions that a caller has on the specified TagKey.
@@ -1408,7 +1419,7 @@ class TagKeysClient(metaclass=TagKeysClientMeta):
                 This corresponds to the ``resource`` field
                 on the ``request`` instance; if ``request`` is provided, this
                 should not be set.
-            permissions (Sequence[str]):
+            permissions (MutableSequence[str]):
                 The set of permissions to check for the ``resource``.
                 Permissions with wildcards (such as '*' or 'storage.*')
                 are not allowed. For more information see `IAM
