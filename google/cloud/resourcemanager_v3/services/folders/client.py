@@ -16,7 +16,18 @@
 from collections import OrderedDict
 import os
 import re
-from typing import Dict, Mapping, Optional, Sequence, Tuple, Type, Union, cast
+from typing import (
+    Dict,
+    Mapping,
+    MutableMapping,
+    MutableSequence,
+    Optional,
+    Sequence,
+    Tuple,
+    Type,
+    Union,
+    cast,
+)
 
 from google.api_core import client_options as client_options_lib
 from google.api_core import exceptions as core_exceptions
@@ -63,7 +74,7 @@ class FoldersClientMeta(type):
 
     def get_transport_class(
         cls,
-        label: str = None,
+        label: Optional[str] = None,
     ) -> Type[FoldersTransport]:
         """Returns an appropriate transport class.
 
@@ -335,7 +346,7 @@ class FoldersClient(metaclass=FoldersClientMeta):
         self,
         *,
         credentials: Optional[ga_credentials.Credentials] = None,
-        transport: Union[str, FoldersTransport, None] = None,
+        transport: Optional[Union[str, FoldersTransport]] = None,
         client_options: Optional[Union[client_options_lib.ClientOptions, dict]] = None,
         client_info: gapic_v1.client_info.ClientInfo = DEFAULT_CLIENT_INFO,
     ) -> None:
@@ -433,11 +444,11 @@ class FoldersClient(metaclass=FoldersClientMeta):
 
     def get_folder(
         self,
-        request: Union[folders.GetFolderRequest, dict] = None,
+        request: Optional[Union[folders.GetFolderRequest, dict]] = None,
         *,
-        name: str = None,
+        name: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> folders.Folder:
         r"""Retrieves a folder identified by the supplied resource name.
@@ -539,11 +550,11 @@ class FoldersClient(metaclass=FoldersClientMeta):
 
     def list_folders(
         self,
-        request: Union[folders.ListFoldersRequest, dict] = None,
+        request: Optional[Union[folders.ListFoldersRequest, dict]] = None,
         *,
-        parent: str = None,
+        parent: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> pagers.ListFoldersPager:
         r"""Lists the folders that are direct descendants of supplied parent
@@ -657,11 +668,11 @@ class FoldersClient(metaclass=FoldersClientMeta):
 
     def search_folders(
         self,
-        request: Union[folders.SearchFoldersRequest, dict] = None,
+        request: Optional[Union[folders.SearchFoldersRequest, dict]] = None,
         *,
-        query: str = None,
+        query: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> pagers.SearchFoldersPager:
         r"""Search for folders that match specific filter criteria.
@@ -804,11 +815,11 @@ class FoldersClient(metaclass=FoldersClientMeta):
 
     def create_folder(
         self,
-        request: Union[folders.CreateFolderRequest, dict] = None,
+        request: Optional[Union[folders.CreateFolderRequest, dict]] = None,
         *,
-        folder: folders.Folder = None,
+        folder: Optional[folders.Folder] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> operation.Operation:
         r"""Creates a folder in the resource hierarchy. Returns an
@@ -946,12 +957,12 @@ class FoldersClient(metaclass=FoldersClientMeta):
 
     def update_folder(
         self,
-        request: Union[folders.UpdateFolderRequest, dict] = None,
+        request: Optional[Union[folders.UpdateFolderRequest, dict]] = None,
         *,
-        folder: folders.Folder = None,
-        update_mask: field_mask_pb2.FieldMask = None,
+        folder: Optional[folders.Folder] = None,
+        update_mask: Optional[field_mask_pb2.FieldMask] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> operation.Operation:
         r"""Updates a folder, changing its ``display_name``. Changes to the
@@ -1100,12 +1111,12 @@ class FoldersClient(metaclass=FoldersClientMeta):
 
     def move_folder(
         self,
-        request: Union[folders.MoveFolderRequest, dict] = None,
+        request: Optional[Union[folders.MoveFolderRequest, dict]] = None,
         *,
-        name: str = None,
-        destination_parent: str = None,
+        name: Optional[str] = None,
+        destination_parent: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> operation.Operation:
         r"""Moves a folder under a new resource parent. Returns an
@@ -1245,11 +1256,11 @@ class FoldersClient(metaclass=FoldersClientMeta):
 
     def delete_folder(
         self,
-        request: Union[folders.DeleteFolderRequest, dict] = None,
+        request: Optional[Union[folders.DeleteFolderRequest, dict]] = None,
         *,
-        name: str = None,
+        name: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> operation.Operation:
         r"""Requests deletion of a folder. The folder is moved into the
@@ -1371,11 +1382,11 @@ class FoldersClient(metaclass=FoldersClientMeta):
 
     def undelete_folder(
         self,
-        request: Union[folders.UndeleteFolderRequest, dict] = None,
+        request: Optional[Union[folders.UndeleteFolderRequest, dict]] = None,
         *,
-        name: str = None,
+        name: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> operation.Operation:
         r"""Cancels the deletion request for a folder. This method may be
@@ -1498,11 +1509,11 @@ class FoldersClient(metaclass=FoldersClientMeta):
 
     def get_iam_policy(
         self,
-        request: Union[iam_policy_pb2.GetIamPolicyRequest, dict] = None,
+        request: Optional[Union[iam_policy_pb2.GetIamPolicyRequest, dict]] = None,
         *,
-        resource: str = None,
+        resource: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> policy_pb2.Policy:
         r"""Gets the access control policy for a folder. The returned policy
@@ -1666,11 +1677,11 @@ class FoldersClient(metaclass=FoldersClientMeta):
 
     def set_iam_policy(
         self,
-        request: Union[iam_policy_pb2.SetIamPolicyRequest, dict] = None,
+        request: Optional[Union[iam_policy_pb2.SetIamPolicyRequest, dict]] = None,
         *,
-        resource: str = None,
+        resource: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> policy_pb2.Policy:
         r"""Sets the access control policy on a folder, replacing any
@@ -1833,12 +1844,12 @@ class FoldersClient(metaclass=FoldersClientMeta):
 
     def test_iam_permissions(
         self,
-        request: Union[iam_policy_pb2.TestIamPermissionsRequest, dict] = None,
+        request: Optional[Union[iam_policy_pb2.TestIamPermissionsRequest, dict]] = None,
         *,
-        resource: str = None,
-        permissions: Sequence[str] = None,
+        resource: Optional[str] = None,
+        permissions: Optional[MutableSequence[str]] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: float = None,
+        timeout: Optional[float] = None,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> iam_policy_pb2.TestIamPermissionsResponse:
         r"""Returns permissions that a caller has on the specified folder.
@@ -1888,7 +1899,7 @@ class FoldersClient(metaclass=FoldersClientMeta):
                 This corresponds to the ``resource`` field
                 on the ``request`` instance; if ``request`` is provided, this
                 should not be set.
-            permissions (Sequence[str]):
+            permissions (MutableSequence[str]):
                 The set of permissions to check for the ``resource``.
                 Permissions with wildcards (such as '*' or 'storage.*')
                 are not allowed. For more information see `IAM
