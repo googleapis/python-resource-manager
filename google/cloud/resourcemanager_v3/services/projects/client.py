@@ -38,7 +38,8 @@ from google.auth.exceptions import MutualTLSChannelError  # type: ignore
 from google.auth.transport import mtls  # type: ignore
 from google.auth.transport.grpc import SslCredentials  # type: ignore
 from google.oauth2 import service_account  # type: ignore
-import pkg_resources
+
+from google.cloud.resourcemanager_v3 import gapic_version as package_version
 
 try:
     OptionalRetry = Union[retries.Retry, gapic_v1.method._MethodDefault]
@@ -444,7 +445,7 @@ class ProjectsClient(metaclass=ProjectsClientMeta):
         *,
         name: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: Optional[float] = None,
+        timeout: Union[float, object] = gapic_v1.method.DEFAULT,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> projects.Project:
         r"""Retrieves the project identified by the specified ``name`` (for
@@ -553,7 +554,7 @@ class ProjectsClient(metaclass=ProjectsClientMeta):
         *,
         parent: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: Optional[float] = None,
+        timeout: Union[float, object] = gapic_v1.method.DEFAULT,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> pagers.ListProjectsPager:
         r"""Lists projects that are direct children of the specified folder
@@ -680,7 +681,7 @@ class ProjectsClient(metaclass=ProjectsClientMeta):
         *,
         query: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: Optional[float] = None,
+        timeout: Union[float, object] = gapic_v1.method.DEFAULT,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> pagers.SearchProjectsPager:
         r"""Search for projects that the caller has both
@@ -845,7 +846,7 @@ class ProjectsClient(metaclass=ProjectsClientMeta):
         *,
         project: Optional[projects.Project] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: Optional[float] = None,
+        timeout: Union[float, object] = gapic_v1.method.DEFAULT,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> operation.Operation:
         r"""Request that a new project be created. The result is an
@@ -970,7 +971,7 @@ class ProjectsClient(metaclass=ProjectsClientMeta):
         project: Optional[projects.Project] = None,
         update_mask: Optional[field_mask_pb2.FieldMask] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: Optional[float] = None,
+        timeout: Union[float, object] = gapic_v1.method.DEFAULT,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> operation.Operation:
         r"""Updates the ``display_name`` and labels of the project
@@ -1110,7 +1111,7 @@ class ProjectsClient(metaclass=ProjectsClientMeta):
         name: Optional[str] = None,
         destination_parent: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: Optional[float] = None,
+        timeout: Union[float, object] = gapic_v1.method.DEFAULT,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> operation.Operation:
         r"""Move a project to another place in your resource hierarchy,
@@ -1249,7 +1250,7 @@ class ProjectsClient(metaclass=ProjectsClientMeta):
         *,
         name: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: Optional[float] = None,
+        timeout: Union[float, object] = gapic_v1.method.DEFAULT,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> operation.Operation:
         r"""Marks the project identified by the specified ``name`` (for
@@ -1400,7 +1401,7 @@ class ProjectsClient(metaclass=ProjectsClientMeta):
         *,
         name: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: Optional[float] = None,
+        timeout: Union[float, object] = gapic_v1.method.DEFAULT,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> operation.Operation:
         r"""Restores the project identified by the specified ``name`` (for
@@ -1528,7 +1529,7 @@ class ProjectsClient(metaclass=ProjectsClientMeta):
         *,
         resource: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: Optional[float] = None,
+        timeout: Union[float, object] = gapic_v1.method.DEFAULT,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> policy_pb2.Policy:
         r"""Returns the IAM access control policy for the
@@ -1693,7 +1694,7 @@ class ProjectsClient(metaclass=ProjectsClientMeta):
         *,
         resource: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: Optional[float] = None,
+        timeout: Union[float, object] = gapic_v1.method.DEFAULT,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> policy_pb2.Policy:
         r"""Sets the IAM access control policy for the specified project.
@@ -1908,7 +1909,7 @@ class ProjectsClient(metaclass=ProjectsClientMeta):
         resource: Optional[str] = None,
         permissions: Optional[MutableSequence[str]] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: Optional[float] = None,
+        timeout: Union[float, object] = gapic_v1.method.DEFAULT,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> iam_policy_pb2.TestIamPermissionsResponse:
         r"""Returns permissions that a caller has on the
@@ -2031,14 +2032,9 @@ class ProjectsClient(metaclass=ProjectsClientMeta):
         self.transport.close()
 
 
-try:
-    DEFAULT_CLIENT_INFO = gapic_v1.client_info.ClientInfo(
-        gapic_version=pkg_resources.get_distribution(
-            "google-cloud-resourcemanager",
-        ).version,
-    )
-except pkg_resources.DistributionNotFound:
-    DEFAULT_CLIENT_INFO = gapic_v1.client_info.ClientInfo()
+DEFAULT_CLIENT_INFO = gapic_v1.client_info.ClientInfo(
+    gapic_version=package_version.__version__
+)
 
 
 __all__ = ("ProjectsClient",)
