@@ -46,37 +46,37 @@ try:
 except AttributeError:  # pragma: NO COVER
     OptionalRetry = Union[retries.Retry, object]  # type: ignore
 
-from google.iam.v1 import iam_policy_pb2  # type: ignore
-from google.iam.v1 import policy_pb2  # type: ignore
+from google.api_core import operation  # type: ignore
+from google.api_core import operation_async  # type: ignore
 from google.longrunning import operations_pb2
-from google.protobuf import timestamp_pb2  # type: ignore
+from google.protobuf import empty_pb2  # type: ignore
 
-from google.cloud.resourcemanager_v3.services.organizations import pagers
-from google.cloud.resourcemanager_v3.types import organizations
+from google.cloud.resourcemanager_v3.services.tag_holds import pagers
+from google.cloud.resourcemanager_v3.types import tag_holds
 
-from .transports.base import DEFAULT_CLIENT_INFO, OrganizationsTransport
-from .transports.grpc import OrganizationsGrpcTransport
-from .transports.grpc_asyncio import OrganizationsGrpcAsyncIOTransport
-from .transports.rest import OrganizationsRestTransport
+from .transports.base import DEFAULT_CLIENT_INFO, TagHoldsTransport
+from .transports.grpc import TagHoldsGrpcTransport
+from .transports.grpc_asyncio import TagHoldsGrpcAsyncIOTransport
+from .transports.rest import TagHoldsRestTransport
 
 
-class OrganizationsClientMeta(type):
-    """Metaclass for the Organizations client.
+class TagHoldsClientMeta(type):
+    """Metaclass for the TagHolds client.
 
     This provides class-level methods for building and retrieving
     support objects (e.g. transport) without polluting the client instance
     objects.
     """
 
-    _transport_registry = OrderedDict()  # type: Dict[str, Type[OrganizationsTransport]]
-    _transport_registry["grpc"] = OrganizationsGrpcTransport
-    _transport_registry["grpc_asyncio"] = OrganizationsGrpcAsyncIOTransport
-    _transport_registry["rest"] = OrganizationsRestTransport
+    _transport_registry = OrderedDict()  # type: Dict[str, Type[TagHoldsTransport]]
+    _transport_registry["grpc"] = TagHoldsGrpcTransport
+    _transport_registry["grpc_asyncio"] = TagHoldsGrpcAsyncIOTransport
+    _transport_registry["rest"] = TagHoldsRestTransport
 
     def get_transport_class(
         cls,
         label: Optional[str] = None,
-    ) -> Type[OrganizationsTransport]:
+    ) -> Type[TagHoldsTransport]:
         """Returns an appropriate transport class.
 
         Args:
@@ -95,8 +95,14 @@ class OrganizationsClientMeta(type):
         return next(iter(cls._transport_registry.values()))
 
 
-class OrganizationsClient(metaclass=OrganizationsClientMeta):
-    """Allows users to manage their organization resources."""
+class TagHoldsClient(metaclass=TagHoldsClientMeta):
+    """Allow users to create and manage TagHolds for TagValues.
+    TagHolds represent the use of a Tag Value that is not captured
+    by TagBindings but should still block TagValue deletion (such as
+    a reference in a policy condition). This service provides
+    isolated failure domains by cloud location so that TagHolds can
+    be managed in the same location as their usage.
+    """
 
     @staticmethod
     def _get_default_mtls_endpoint(api_endpoint):
@@ -144,7 +150,7 @@ class OrganizationsClient(metaclass=OrganizationsClientMeta):
             kwargs: Additional arguments to pass to the constructor.
 
         Returns:
-            OrganizationsClient: The constructed client.
+            TagHoldsClient: The constructed client.
         """
         credentials = service_account.Credentials.from_service_account_info(info)
         kwargs["credentials"] = credentials
@@ -162,7 +168,7 @@ class OrganizationsClient(metaclass=OrganizationsClientMeta):
             kwargs: Additional arguments to pass to the constructor.
 
         Returns:
-            OrganizationsClient: The constructed client.
+            TagHoldsClient: The constructed client.
         """
         credentials = service_account.Credentials.from_service_account_file(filename)
         kwargs["credentials"] = credentials
@@ -171,28 +177,30 @@ class OrganizationsClient(metaclass=OrganizationsClientMeta):
     from_service_account_json = from_service_account_file
 
     @property
-    def transport(self) -> OrganizationsTransport:
+    def transport(self) -> TagHoldsTransport:
         """Returns the transport used by the client instance.
 
         Returns:
-            OrganizationsTransport: The transport used by the client
+            TagHoldsTransport: The transport used by the client
                 instance.
         """
         return self._transport
 
     @staticmethod
-    def organization_path(
-        organization: str,
+    def tag_hold_path(
+        tag_value: str,
+        tag_hold: str,
     ) -> str:
-        """Returns a fully-qualified organization string."""
-        return "organizations/{organization}".format(
-            organization=organization,
+        """Returns a fully-qualified tag_hold string."""
+        return "tagValues/{tag_value}/tagHolds/{tag_hold}".format(
+            tag_value=tag_value,
+            tag_hold=tag_hold,
         )
 
     @staticmethod
-    def parse_organization_path(path: str) -> Dict[str, str]:
-        """Parses a organization path into its component segments."""
-        m = re.match(r"^organizations/(?P<organization>.+?)$", path)
+    def parse_tag_hold_path(path: str) -> Dict[str, str]:
+        """Parses a tag_hold path into its component segments."""
+        m = re.match(r"^tagValues/(?P<tag_value>.+?)/tagHolds/(?P<tag_hold>.+?)$", path)
         return m.groupdict() if m else {}
 
     @staticmethod
@@ -343,11 +351,11 @@ class OrganizationsClient(metaclass=OrganizationsClientMeta):
         self,
         *,
         credentials: Optional[ga_credentials.Credentials] = None,
-        transport: Optional[Union[str, OrganizationsTransport]] = None,
+        transport: Optional[Union[str, TagHoldsTransport]] = None,
         client_options: Optional[Union[client_options_lib.ClientOptions, dict]] = None,
         client_info: gapic_v1.client_info.ClientInfo = DEFAULT_CLIENT_INFO,
     ) -> None:
-        """Instantiates the organizations client.
+        """Instantiates the tag holds client.
 
         Args:
             credentials (Optional[google.auth.credentials.Credentials]): The
@@ -355,7 +363,7 @@ class OrganizationsClient(metaclass=OrganizationsClientMeta):
                 credentials identify the application to the service; if none
                 are specified, the client will attempt to ascertain the
                 credentials from the environment.
-            transport (Union[str, OrganizationsTransport]): The
+            transport (Union[str, TagHoldsTransport]): The
                 transport to use. If set to None, a transport is chosen
                 automatically.
             client_options (Optional[Union[google.api_core.client_options.ClientOptions, dict]]): Custom options for the
@@ -403,8 +411,8 @@ class OrganizationsClient(metaclass=OrganizationsClientMeta):
         # Save or instantiate the transport.
         # Ordinarily, we provide the transport, but allowing a custom transport
         # instance provides an extensibility point for unusual situations.
-        if isinstance(transport, OrganizationsTransport):
-            # transport is a OrganizationsTransport instance.
+        if isinstance(transport, TagHoldsTransport):
+            # transport is a TagHoldsTransport instance.
             if credentials or client_options.credentials_file or api_key_value:
                 raise ValueError(
                     "When providing a transport instance, "
@@ -439,17 +447,18 @@ class OrganizationsClient(metaclass=OrganizationsClientMeta):
                 api_audience=client_options.api_audience,
             )
 
-    def get_organization(
+    def create_tag_hold(
         self,
-        request: Optional[Union[organizations.GetOrganizationRequest, dict]] = None,
+        request: Optional[Union[tag_holds.CreateTagHoldRequest, dict]] = None,
         *,
-        name: Optional[str] = None,
+        parent: Optional[str] = None,
+        tag_hold: Optional[tag_holds.TagHold] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
         timeout: Union[float, object] = gapic_v1.method.DEFAULT,
         metadata: Sequence[Tuple[str, str]] = (),
-    ) -> organizations.Organization:
-        r"""Fetches an organization resource identified by the
-        specified resource name.
+    ) -> operation.Operation:
+        r"""Creates a TagHold. Returns ALREADY_EXISTS if a TagHold with the
+        same resource and origin exists under the same TagValue.
 
         .. code-block:: python
 
@@ -462,31 +471,163 @@ class OrganizationsClient(metaclass=OrganizationsClientMeta):
             #   https://googleapis.dev/python/google-api-core/latest/client_options.html
             from google.cloud import resourcemanager_v3
 
-            def sample_get_organization():
+            def sample_create_tag_hold():
                 # Create a client
-                client = resourcemanager_v3.OrganizationsClient()
+                client = resourcemanager_v3.TagHoldsClient()
 
                 # Initialize request argument(s)
-                request = resourcemanager_v3.GetOrganizationRequest(
-                    name="name_value",
+                tag_hold = resourcemanager_v3.TagHold()
+                tag_hold.holder = "holder_value"
+
+                request = resourcemanager_v3.CreateTagHoldRequest(
+                    parent="parent_value",
+                    tag_hold=tag_hold,
                 )
 
                 # Make the request
-                response = client.get_organization(request=request)
+                operation = client.create_tag_hold(request=request)
+
+                print("Waiting for operation to complete...")
+
+                response = operation.result()
 
                 # Handle the response
                 print(response)
 
         Args:
-            request (Union[google.cloud.resourcemanager_v3.types.GetOrganizationRequest, dict]):
-                The request object. The request sent to the ``GetOrganization`` method. The
-                ``name`` field is required. ``organization_id`` is no
-                longer accepted.
+            request (Union[google.cloud.resourcemanager_v3.types.CreateTagHoldRequest, dict]):
+                The request object. The request message to create a
+                TagHold.
+            parent (str):
+                Required. The resource name of the TagHold's parent
+                TagValue. Must be of the form:
+                ``tagValues/{tag-value-id}``.
+
+                This corresponds to the ``parent`` field
+                on the ``request`` instance; if ``request`` is provided, this
+                should not be set.
+            tag_hold (google.cloud.resourcemanager_v3.types.TagHold):
+                Required. The TagHold to be created.
+                This corresponds to the ``tag_hold`` field
+                on the ``request`` instance; if ``request`` is provided, this
+                should not be set.
+            retry (google.api_core.retry.Retry): Designation of what errors, if any,
+                should be retried.
+            timeout (float): The timeout for this request.
+            metadata (Sequence[Tuple[str, str]]): Strings which should be
+                sent along with the request as metadata.
+
+        Returns:
+            google.api_core.operation.Operation:
+                An object representing a long-running operation.
+
+                The result type for the operation will be :class:`google.cloud.resourcemanager_v3.types.TagHold` A TagHold represents the use of a TagValue that is not captured by
+                   TagBindings. If a TagValue has any TagHolds, deletion
+                   will be blocked. This resource is intended to be
+                   created in the same cloud location as the holder.
+
+        """
+        # Create or coerce a protobuf request object.
+        # Quick check: If we got a request object, we should *not* have
+        # gotten any keyword arguments that map to the request.
+        has_flattened_params = any([parent, tag_hold])
+        if request is not None and has_flattened_params:
+            raise ValueError(
+                "If the `request` argument is set, then none of "
+                "the individual field arguments should be set."
+            )
+
+        # Minor optimization to avoid making a copy if the user passes
+        # in a tag_holds.CreateTagHoldRequest.
+        # There's no risk of modifying the input as we've already verified
+        # there are no flattened fields.
+        if not isinstance(request, tag_holds.CreateTagHoldRequest):
+            request = tag_holds.CreateTagHoldRequest(request)
+            # If we have keyword arguments corresponding to fields on the
+            # request, apply these.
+            if parent is not None:
+                request.parent = parent
+            if tag_hold is not None:
+                request.tag_hold = tag_hold
+
+        # Wrap the RPC method; this adds retry and timeout information,
+        # and friendly error handling.
+        rpc = self._transport._wrapped_methods[self._transport.create_tag_hold]
+
+        # Certain fields should be provided within the metadata header;
+        # add these here.
+        metadata = tuple(metadata) + (
+            gapic_v1.routing_header.to_grpc_metadata((("parent", request.parent),)),
+        )
+
+        # Send the request.
+        response = rpc(
+            request,
+            retry=retry,
+            timeout=timeout,
+            metadata=metadata,
+        )
+
+        # Wrap the response in an operation future.
+        response = operation.from_gapic(
+            response,
+            self._transport.operations_client,
+            tag_holds.TagHold,
+            metadata_type=tag_holds.CreateTagHoldMetadata,
+        )
+
+        # Done; return the response.
+        return response
+
+    def delete_tag_hold(
+        self,
+        request: Optional[Union[tag_holds.DeleteTagHoldRequest, dict]] = None,
+        *,
+        name: Optional[str] = None,
+        retry: OptionalRetry = gapic_v1.method.DEFAULT,
+        timeout: Union[float, object] = gapic_v1.method.DEFAULT,
+        metadata: Sequence[Tuple[str, str]] = (),
+    ) -> operation.Operation:
+        r"""Deletes a TagHold.
+
+        .. code-block:: python
+
+            # This snippet has been automatically generated and should be regarded as a
+            # code template only.
+            # It will require modifications to work:
+            # - It may require correct/in-range values for request initialization.
+            # - It may require specifying regional endpoints when creating the service
+            #   client as shown in:
+            #   https://googleapis.dev/python/google-api-core/latest/client_options.html
+            from google.cloud import resourcemanager_v3
+
+            def sample_delete_tag_hold():
+                # Create a client
+                client = resourcemanager_v3.TagHoldsClient()
+
+                # Initialize request argument(s)
+                request = resourcemanager_v3.DeleteTagHoldRequest(
+                    name="name_value",
+                )
+
+                # Make the request
+                operation = client.delete_tag_hold(request=request)
+
+                print("Waiting for operation to complete...")
+
+                response = operation.result()
+
+                # Handle the response
+                print(response)
+
+        Args:
+            request (Union[google.cloud.resourcemanager_v3.types.DeleteTagHoldRequest, dict]):
+                The request object. The request message to delete a
+                TagHold.
             name (str):
-                Required. The resource name of the Organization to
-                fetch. This is the organization's relative path in the
-                API, formatted as "organizations/[organizationId]". For
-                example, "organizations/1234".
+                Required. The resource name of the TagHold to delete.
+                Must be of the form:
+                ``tagValues/{tag-value-id}/tagHolds/{tag-hold-id}``.
 
                 This corresponds to the ``name`` field
                 on the ``request`` instance; if ``request`` is provided, this
@@ -498,11 +639,19 @@ class OrganizationsClient(metaclass=OrganizationsClientMeta):
                 sent along with the request as metadata.
 
         Returns:
-            google.cloud.resourcemanager_v3.types.Organization:
-                The root node in the resource
-                hierarchy to which a particular entity's
-                (a company, for example) resources
-                belong.
+            google.api_core.operation.Operation:
+                An object representing a long-running operation.
+
+                The result type for the operation will be :class:`google.protobuf.empty_pb2.Empty` A generic empty message that you can re-use to avoid defining duplicated
+                   empty messages in your APIs. A typical example is to
+                   use it as the request or the response type of an API
+                   method. For instance:
+
+                      service Foo {
+                         rpc Bar(google.protobuf.Empty) returns
+                         (google.protobuf.Empty);
+
+                      }
 
         """
         # Create or coerce a protobuf request object.
@@ -516,11 +665,11 @@ class OrganizationsClient(metaclass=OrganizationsClientMeta):
             )
 
         # Minor optimization to avoid making a copy if the user passes
-        # in a organizations.GetOrganizationRequest.
+        # in a tag_holds.DeleteTagHoldRequest.
         # There's no risk of modifying the input as we've already verified
         # there are no flattened fields.
-        if not isinstance(request, organizations.GetOrganizationRequest):
-            request = organizations.GetOrganizationRequest(request)
+        if not isinstance(request, tag_holds.DeleteTagHoldRequest):
+            request = tag_holds.DeleteTagHoldRequest(request)
             # If we have keyword arguments corresponding to fields on the
             # request, apply these.
             if name is not None:
@@ -528,7 +677,7 @@ class OrganizationsClient(metaclass=OrganizationsClientMeta):
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
-        rpc = self._transport._wrapped_methods[self._transport.get_organization]
+        rpc = self._transport._wrapped_methods[self._transport.delete_tag_hold]
 
         # Certain fields should be provided within the metadata header;
         # add these here.
@@ -544,26 +693,27 @@ class OrganizationsClient(metaclass=OrganizationsClientMeta):
             metadata=metadata,
         )
 
+        # Wrap the response in an operation future.
+        response = operation.from_gapic(
+            response,
+            self._transport.operations_client,
+            empty_pb2.Empty,
+            metadata_type=tag_holds.DeleteTagHoldMetadata,
+        )
+
         # Done; return the response.
         return response
 
-    def search_organizations(
+    def list_tag_holds(
         self,
-        request: Optional[Union[organizations.SearchOrganizationsRequest, dict]] = None,
+        request: Optional[Union[tag_holds.ListTagHoldsRequest, dict]] = None,
         *,
-        query: Optional[str] = None,
+        parent: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
         timeout: Union[float, object] = gapic_v1.method.DEFAULT,
         metadata: Sequence[Tuple[str, str]] = (),
-    ) -> pagers.SearchOrganizationsPager:
-        r"""Searches organization resources that are visible to the user and
-        satisfy the specified filter. This method returns organizations
-        in an unspecified order. New organizations do not necessarily
-        appear at the end of the results, and may take a small amount of
-        time to appear.
-
-        Search will only return organizations on which the user has the
-        permission ``resourcemanager.organizations.get``
+    ) -> pagers.ListTagHoldsPager:
+        r"""Lists TagHolds under a TagValue.
 
         .. code-block:: python
 
@@ -576,49 +726,31 @@ class OrganizationsClient(metaclass=OrganizationsClientMeta):
             #   https://googleapis.dev/python/google-api-core/latest/client_options.html
             from google.cloud import resourcemanager_v3
 
-            def sample_search_organizations():
+            def sample_list_tag_holds():
                 # Create a client
-                client = resourcemanager_v3.OrganizationsClient()
+                client = resourcemanager_v3.TagHoldsClient()
 
                 # Initialize request argument(s)
-                request = resourcemanager_v3.SearchOrganizationsRequest(
+                request = resourcemanager_v3.ListTagHoldsRequest(
+                    parent="parent_value",
                 )
 
                 # Make the request
-                page_result = client.search_organizations(request=request)
+                page_result = client.list_tag_holds(request=request)
 
                 # Handle the response
                 for response in page_result:
                     print(response)
 
         Args:
-            request (Union[google.cloud.resourcemanager_v3.types.SearchOrganizationsRequest, dict]):
-                The request object. The request sent to the ``SearchOrganizations`` method.
-            query (str):
-                Optional. An optional query string used to filter the
-                Organizations to return in the response. Query rules are
-                case-insensitive.
+            request (Union[google.cloud.resourcemanager_v3.types.ListTagHoldsRequest, dict]):
+                The request object. The request message for listing the
+                TagHolds under a TagValue.
+            parent (str):
+                Required. The resource name of the parent TagValue. Must
+                be of the form: ``tagValues/{tag-value-id}``.
 
-                ::
-
-                   | Field            | Description                                |
-                   |------------------|--------------------------------------------|
-                   | directoryCustomerId, owner.directoryCustomerId | Filters by directory
-                   customer id. |
-                   | domain           | Filters by domain.                         |
-
-                Organizations may be queried by ``directoryCustomerId``
-                or by ``domain``, where the domain is a G Suite domain,
-                for example:
-
-                -  Query ``directorycustomerid:123456789`` returns
-                   Organization resources with
-                   ``owner.directory_customer_id`` equal to
-                   ``123456789``.
-                -  Query ``domain:google.com`` returns Organization
-                   resources corresponding to the domain ``google.com``.
-
-                This corresponds to the ``query`` field
+                This corresponds to the ``parent`` field
                 on the ``request`` instance; if ``request`` is provided, this
                 should not be set.
             retry (google.api_core.retry.Retry): Designation of what errors, if any,
@@ -628,18 +760,17 @@ class OrganizationsClient(metaclass=OrganizationsClientMeta):
                 sent along with the request as metadata.
 
         Returns:
-            google.cloud.resourcemanager_v3.services.organizations.pagers.SearchOrganizationsPager:
-                The response returned from the SearchOrganizations
-                method.
-
-                Iterating over this object will yield results and
-                resolve additional pages automatically.
+            google.cloud.resourcemanager_v3.services.tag_holds.pagers.ListTagHoldsPager:
+                The ListTagHolds response.
+                Iterating over this object will yield
+                results and resolve additional pages
+                automatically.
 
         """
         # Create or coerce a protobuf request object.
         # Quick check: If we got a request object, we should *not* have
         # gotten any keyword arguments that map to the request.
-        has_flattened_params = any([query])
+        has_flattened_params = any([parent])
         if request is not None and has_flattened_params:
             raise ValueError(
                 "If the `request` argument is set, then none of "
@@ -647,19 +778,25 @@ class OrganizationsClient(metaclass=OrganizationsClientMeta):
             )
 
         # Minor optimization to avoid making a copy if the user passes
-        # in a organizations.SearchOrganizationsRequest.
+        # in a tag_holds.ListTagHoldsRequest.
         # There's no risk of modifying the input as we've already verified
         # there are no flattened fields.
-        if not isinstance(request, organizations.SearchOrganizationsRequest):
-            request = organizations.SearchOrganizationsRequest(request)
+        if not isinstance(request, tag_holds.ListTagHoldsRequest):
+            request = tag_holds.ListTagHoldsRequest(request)
             # If we have keyword arguments corresponding to fields on the
             # request, apply these.
-            if query is not None:
-                request.query = query
+            if parent is not None:
+                request.parent = parent
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
-        rpc = self._transport._wrapped_methods[self._transport.search_organizations]
+        rpc = self._transport._wrapped_methods[self._transport.list_tag_holds]
+
+        # Certain fields should be provided within the metadata header;
+        # add these here.
+        metadata = tuple(metadata) + (
+            gapic_v1.routing_header.to_grpc_metadata((("parent", request.parent),)),
+        )
 
         # Send the request.
         response = rpc(
@@ -671,7 +808,7 @@ class OrganizationsClient(metaclass=OrganizationsClientMeta):
 
         # This method is paged; wrap the response in a pager, which provides
         # an `__iter__` convenience method.
-        response = pagers.SearchOrganizationsPager(
+        response = pagers.ListTagHoldsPager(
             method=rpc,
             request=request,
             response=response,
@@ -681,463 +818,7 @@ class OrganizationsClient(metaclass=OrganizationsClientMeta):
         # Done; return the response.
         return response
 
-    def get_iam_policy(
-        self,
-        request: Optional[Union[iam_policy_pb2.GetIamPolicyRequest, dict]] = None,
-        *,
-        resource: Optional[str] = None,
-        retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: Union[float, object] = gapic_v1.method.DEFAULT,
-        metadata: Sequence[Tuple[str, str]] = (),
-    ) -> policy_pb2.Policy:
-        r"""Gets the access control policy for an organization resource. The
-        policy may be empty if no such policy or resource exists. The
-        ``resource`` field should be the organization's resource name,
-        for example: "organizations/123".
-
-        Authorization requires the IAM permission
-        ``resourcemanager.organizations.getIamPolicy`` on the specified
-        organization.
-
-        .. code-block:: python
-
-            # This snippet has been automatically generated and should be regarded as a
-            # code template only.
-            # It will require modifications to work:
-            # - It may require correct/in-range values for request initialization.
-            # - It may require specifying regional endpoints when creating the service
-            #   client as shown in:
-            #   https://googleapis.dev/python/google-api-core/latest/client_options.html
-            from google.cloud import resourcemanager_v3
-            from google.iam.v1 import iam_policy_pb2  # type: ignore
-
-            def sample_get_iam_policy():
-                # Create a client
-                client = resourcemanager_v3.OrganizationsClient()
-
-                # Initialize request argument(s)
-                request = iam_policy_pb2.GetIamPolicyRequest(
-                    resource="resource_value",
-                )
-
-                # Make the request
-                response = client.get_iam_policy(request=request)
-
-                # Handle the response
-                print(response)
-
-        Args:
-            request (Union[google.iam.v1.iam_policy_pb2.GetIamPolicyRequest, dict]):
-                The request object. Request message for ``GetIamPolicy`` method.
-            resource (str):
-                REQUIRED: The resource for which the
-                policy is being requested. See the
-                operation documentation for the
-                appropriate value for this field.
-
-                This corresponds to the ``resource`` field
-                on the ``request`` instance; if ``request`` is provided, this
-                should not be set.
-            retry (google.api_core.retry.Retry): Designation of what errors, if any,
-                should be retried.
-            timeout (float): The timeout for this request.
-            metadata (Sequence[Tuple[str, str]]): Strings which should be
-                sent along with the request as metadata.
-
-        Returns:
-            google.iam.v1.policy_pb2.Policy:
-                An Identity and Access Management (IAM) policy, which specifies access
-                   controls for Google Cloud resources.
-
-                   A Policy is a collection of bindings. A binding binds
-                   one or more members, or principals, to a single role.
-                   Principals can be user accounts, service accounts,
-                   Google groups, and domains (such as G Suite). A role
-                   is a named list of permissions; each role can be an
-                   IAM predefined role or a user-created custom role.
-
-                   For some types of Google Cloud resources, a binding
-                   can also specify a condition, which is a logical
-                   expression that allows access to a resource only if
-                   the expression evaluates to true. A condition can add
-                   constraints based on attributes of the request, the
-                   resource, or both. To learn which resources support
-                   conditions in their IAM policies, see the [IAM
-                   documentation](\ https://cloud.google.com/iam/help/conditions/resource-policies).
-
-                   **JSON example:**
-
-                      {
-                         "bindings": [
-                            {
-                               "role":
-                               "roles/resourcemanager.organizationAdmin",
-                               "members": [ "user:mike@example.com",
-                               "group:admins@example.com",
-                               "domain:google.com",
-                               "serviceAccount:my-project-id@appspot.gserviceaccount.com"
-                               ]
-
-                            }, { "role":
-                            "roles/resourcemanager.organizationViewer",
-                            "members": [ "user:eve@example.com" ],
-                            "condition": { "title": "expirable access",
-                            "description": "Does not grant access after
-                            Sep 2020", "expression": "request.time <
-                            timestamp('2020-10-01T00:00:00.000Z')", } }
-
-                         ], "etag": "BwWWja0YfJA=", "version": 3
-
-                      }
-
-                   **YAML example:**
-
-                      bindings: - members: - user:\ mike@example.com -
-                      group:\ admins@example.com - domain:google.com -
-                      serviceAccount:\ my-project-id@appspot.gserviceaccount.com
-                      role: roles/resourcemanager.organizationAdmin -
-                      members: - user:\ eve@example.com role:
-                      roles/resourcemanager.organizationViewer
-                      condition: title: expirable access description:
-                      Does not grant access after Sep 2020 expression:
-                      request.time <
-                      timestamp('2020-10-01T00:00:00.000Z') etag:
-                      BwWWja0YfJA= version: 3
-
-                   For a description of IAM and its features, see the
-                   [IAM
-                   documentation](\ https://cloud.google.com/iam/docs/).
-
-        """
-        # Create or coerce a protobuf request object.
-        # Quick check: If we got a request object, we should *not* have
-        # gotten any keyword arguments that map to the request.
-        has_flattened_params = any([resource])
-        if request is not None and has_flattened_params:
-            raise ValueError(
-                "If the `request` argument is set, then none of "
-                "the individual field arguments should be set."
-            )
-
-        if isinstance(request, dict):
-            # The request isn't a proto-plus wrapped type,
-            # so it must be constructed via keyword expansion.
-            request = iam_policy_pb2.GetIamPolicyRequest(**request)
-        elif not request:
-            # Null request, just make one.
-            request = iam_policy_pb2.GetIamPolicyRequest()
-            if resource is not None:
-                request.resource = resource
-
-        # Wrap the RPC method; this adds retry and timeout information,
-        # and friendly error handling.
-        rpc = self._transport._wrapped_methods[self._transport.get_iam_policy]
-
-        # Certain fields should be provided within the metadata header;
-        # add these here.
-        metadata = tuple(metadata) + (
-            gapic_v1.routing_header.to_grpc_metadata((("resource", request.resource),)),
-        )
-
-        # Send the request.
-        response = rpc(
-            request,
-            retry=retry,
-            timeout=timeout,
-            metadata=metadata,
-        )
-
-        # Done; return the response.
-        return response
-
-    def set_iam_policy(
-        self,
-        request: Optional[Union[iam_policy_pb2.SetIamPolicyRequest, dict]] = None,
-        *,
-        resource: Optional[str] = None,
-        retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: Union[float, object] = gapic_v1.method.DEFAULT,
-        metadata: Sequence[Tuple[str, str]] = (),
-    ) -> policy_pb2.Policy:
-        r"""Sets the access control policy on an organization resource.
-        Replaces any existing policy. The ``resource`` field should be
-        the organization's resource name, for example:
-        "organizations/123".
-
-        Authorization requires the IAM permission
-        ``resourcemanager.organizations.setIamPolicy`` on the specified
-        organization.
-
-        .. code-block:: python
-
-            # This snippet has been automatically generated and should be regarded as a
-            # code template only.
-            # It will require modifications to work:
-            # - It may require correct/in-range values for request initialization.
-            # - It may require specifying regional endpoints when creating the service
-            #   client as shown in:
-            #   https://googleapis.dev/python/google-api-core/latest/client_options.html
-            from google.cloud import resourcemanager_v3
-            from google.iam.v1 import iam_policy_pb2  # type: ignore
-
-            def sample_set_iam_policy():
-                # Create a client
-                client = resourcemanager_v3.OrganizationsClient()
-
-                # Initialize request argument(s)
-                request = iam_policy_pb2.SetIamPolicyRequest(
-                    resource="resource_value",
-                )
-
-                # Make the request
-                response = client.set_iam_policy(request=request)
-
-                # Handle the response
-                print(response)
-
-        Args:
-            request (Union[google.iam.v1.iam_policy_pb2.SetIamPolicyRequest, dict]):
-                The request object. Request message for ``SetIamPolicy`` method.
-            resource (str):
-                REQUIRED: The resource for which the
-                policy is being specified. See the
-                operation documentation for the
-                appropriate value for this field.
-
-                This corresponds to the ``resource`` field
-                on the ``request`` instance; if ``request`` is provided, this
-                should not be set.
-            retry (google.api_core.retry.Retry): Designation of what errors, if any,
-                should be retried.
-            timeout (float): The timeout for this request.
-            metadata (Sequence[Tuple[str, str]]): Strings which should be
-                sent along with the request as metadata.
-
-        Returns:
-            google.iam.v1.policy_pb2.Policy:
-                An Identity and Access Management (IAM) policy, which specifies access
-                   controls for Google Cloud resources.
-
-                   A Policy is a collection of bindings. A binding binds
-                   one or more members, or principals, to a single role.
-                   Principals can be user accounts, service accounts,
-                   Google groups, and domains (such as G Suite). A role
-                   is a named list of permissions; each role can be an
-                   IAM predefined role or a user-created custom role.
-
-                   For some types of Google Cloud resources, a binding
-                   can also specify a condition, which is a logical
-                   expression that allows access to a resource only if
-                   the expression evaluates to true. A condition can add
-                   constraints based on attributes of the request, the
-                   resource, or both. To learn which resources support
-                   conditions in their IAM policies, see the [IAM
-                   documentation](\ https://cloud.google.com/iam/help/conditions/resource-policies).
-
-                   **JSON example:**
-
-                      {
-                         "bindings": [
-                            {
-                               "role":
-                               "roles/resourcemanager.organizationAdmin",
-                               "members": [ "user:mike@example.com",
-                               "group:admins@example.com",
-                               "domain:google.com",
-                               "serviceAccount:my-project-id@appspot.gserviceaccount.com"
-                               ]
-
-                            }, { "role":
-                            "roles/resourcemanager.organizationViewer",
-                            "members": [ "user:eve@example.com" ],
-                            "condition": { "title": "expirable access",
-                            "description": "Does not grant access after
-                            Sep 2020", "expression": "request.time <
-                            timestamp('2020-10-01T00:00:00.000Z')", } }
-
-                         ], "etag": "BwWWja0YfJA=", "version": 3
-
-                      }
-
-                   **YAML example:**
-
-                      bindings: - members: - user:\ mike@example.com -
-                      group:\ admins@example.com - domain:google.com -
-                      serviceAccount:\ my-project-id@appspot.gserviceaccount.com
-                      role: roles/resourcemanager.organizationAdmin -
-                      members: - user:\ eve@example.com role:
-                      roles/resourcemanager.organizationViewer
-                      condition: title: expirable access description:
-                      Does not grant access after Sep 2020 expression:
-                      request.time <
-                      timestamp('2020-10-01T00:00:00.000Z') etag:
-                      BwWWja0YfJA= version: 3
-
-                   For a description of IAM and its features, see the
-                   [IAM
-                   documentation](\ https://cloud.google.com/iam/docs/).
-
-        """
-        # Create or coerce a protobuf request object.
-        # Quick check: If we got a request object, we should *not* have
-        # gotten any keyword arguments that map to the request.
-        has_flattened_params = any([resource])
-        if request is not None and has_flattened_params:
-            raise ValueError(
-                "If the `request` argument is set, then none of "
-                "the individual field arguments should be set."
-            )
-
-        if isinstance(request, dict):
-            # The request isn't a proto-plus wrapped type,
-            # so it must be constructed via keyword expansion.
-            request = iam_policy_pb2.SetIamPolicyRequest(**request)
-        elif not request:
-            # Null request, just make one.
-            request = iam_policy_pb2.SetIamPolicyRequest()
-            if resource is not None:
-                request.resource = resource
-
-        # Wrap the RPC method; this adds retry and timeout information,
-        # and friendly error handling.
-        rpc = self._transport._wrapped_methods[self._transport.set_iam_policy]
-
-        # Certain fields should be provided within the metadata header;
-        # add these here.
-        metadata = tuple(metadata) + (
-            gapic_v1.routing_header.to_grpc_metadata((("resource", request.resource),)),
-        )
-
-        # Send the request.
-        response = rpc(
-            request,
-            retry=retry,
-            timeout=timeout,
-            metadata=metadata,
-        )
-
-        # Done; return the response.
-        return response
-
-    def test_iam_permissions(
-        self,
-        request: Optional[Union[iam_policy_pb2.TestIamPermissionsRequest, dict]] = None,
-        *,
-        resource: Optional[str] = None,
-        permissions: Optional[MutableSequence[str]] = None,
-        retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: Union[float, object] = gapic_v1.method.DEFAULT,
-        metadata: Sequence[Tuple[str, str]] = (),
-    ) -> iam_policy_pb2.TestIamPermissionsResponse:
-        r"""Returns the permissions that a caller has on the specified
-        organization. The ``resource`` field should be the
-        organization's resource name, for example: "organizations/123".
-
-        There are no permissions required for making this API call.
-
-        .. code-block:: python
-
-            # This snippet has been automatically generated and should be regarded as a
-            # code template only.
-            # It will require modifications to work:
-            # - It may require correct/in-range values for request initialization.
-            # - It may require specifying regional endpoints when creating the service
-            #   client as shown in:
-            #   https://googleapis.dev/python/google-api-core/latest/client_options.html
-            from google.cloud import resourcemanager_v3
-            from google.iam.v1 import iam_policy_pb2  # type: ignore
-
-            def sample_test_iam_permissions():
-                # Create a client
-                client = resourcemanager_v3.OrganizationsClient()
-
-                # Initialize request argument(s)
-                request = iam_policy_pb2.TestIamPermissionsRequest(
-                    resource="resource_value",
-                    permissions=['permissions_value1', 'permissions_value2'],
-                )
-
-                # Make the request
-                response = client.test_iam_permissions(request=request)
-
-                # Handle the response
-                print(response)
-
-        Args:
-            request (Union[google.iam.v1.iam_policy_pb2.TestIamPermissionsRequest, dict]):
-                The request object. Request message for ``TestIamPermissions`` method.
-            resource (str):
-                REQUIRED: The resource for which the
-                policy detail is being requested. See
-                the operation documentation for the
-                appropriate value for this field.
-
-                This corresponds to the ``resource`` field
-                on the ``request`` instance; if ``request`` is provided, this
-                should not be set.
-            permissions (MutableSequence[str]):
-                The set of permissions to check for the ``resource``.
-                Permissions with wildcards (such as '*' or 'storage.*')
-                are not allowed. For more information see `IAM
-                Overview <https://cloud.google.com/iam/docs/overview#permissions>`__.
-
-                This corresponds to the ``permissions`` field
-                on the ``request`` instance; if ``request`` is provided, this
-                should not be set.
-            retry (google.api_core.retry.Retry): Designation of what errors, if any,
-                should be retried.
-            timeout (float): The timeout for this request.
-            metadata (Sequence[Tuple[str, str]]): Strings which should be
-                sent along with the request as metadata.
-
-        Returns:
-            google.iam.v1.iam_policy_pb2.TestIamPermissionsResponse:
-                Response message for TestIamPermissions method.
-        """
-        # Create or coerce a protobuf request object.
-        # Quick check: If we got a request object, we should *not* have
-        # gotten any keyword arguments that map to the request.
-        has_flattened_params = any([resource, permissions])
-        if request is not None and has_flattened_params:
-            raise ValueError(
-                "If the `request` argument is set, then none of "
-                "the individual field arguments should be set."
-            )
-
-        if isinstance(request, dict):
-            # The request isn't a proto-plus wrapped type,
-            # so it must be constructed via keyword expansion.
-            request = iam_policy_pb2.TestIamPermissionsRequest(**request)
-        elif not request:
-            # Null request, just make one.
-            request = iam_policy_pb2.TestIamPermissionsRequest()
-            if resource is not None:
-                request.resource = resource
-            if permissions:
-                request.permissions.extend(permissions)
-
-        # Wrap the RPC method; this adds retry and timeout information,
-        # and friendly error handling.
-        rpc = self._transport._wrapped_methods[self._transport.test_iam_permissions]
-
-        # Certain fields should be provided within the metadata header;
-        # add these here.
-        metadata = tuple(metadata) + (
-            gapic_v1.routing_header.to_grpc_metadata((("resource", request.resource),)),
-        )
-
-        # Send the request.
-        response = rpc(
-            request,
-            retry=retry,
-            timeout=timeout,
-            metadata=metadata,
-        )
-
-        # Done; return the response.
-        return response
-
-    def __enter__(self) -> "OrganizationsClient":
+    def __enter__(self) -> "TagHoldsClient":
         return self
 
     def __exit__(self, type, value, traceback):
@@ -1210,4 +891,4 @@ DEFAULT_CLIENT_INFO = gapic_v1.client_info.ClientInfo(
 )
 
 
-__all__ = ("OrganizationsClient",)
+__all__ = ("TagHoldsClient",)

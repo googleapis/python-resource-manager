@@ -23,17 +23,20 @@ from google.auth.transport.grpc import SslCredentials  # type: ignore
 from google.longrunning import operations_pb2  # type: ignore
 import grpc  # type: ignore
 
-from google.cloud.resourcemanager_v3.types import tag_bindings
+from google.cloud.resourcemanager_v3.types import tag_holds
 
-from .base import DEFAULT_CLIENT_INFO, TagBindingsTransport
+from .base import DEFAULT_CLIENT_INFO, TagHoldsTransport
 
 
-class TagBindingsGrpcTransport(TagBindingsTransport):
-    """gRPC backend transport for TagBindings.
+class TagHoldsGrpcTransport(TagHoldsTransport):
+    """gRPC backend transport for TagHolds.
 
-    Allow users to create and manage TagBindings between
-    TagValues and different Google Cloud resources throughout the
-    GCP resource hierarchy.
+    Allow users to create and manage TagHolds for TagValues.
+    TagHolds represent the use of a Tag Value that is not captured
+    by TagBindings but should still block TagValue deletion (such as
+    a reference in a policy condition). This service provides
+    isolated failure domains by cloud location so that TagHolds can
+    be managed in the same location as their usage.
 
     This class defines the same methods as the primary client, so the
     primary client can load the underlying transport implementation
@@ -247,49 +250,16 @@ class TagBindingsGrpcTransport(TagBindingsTransport):
         return self._operations_client
 
     @property
-    def list_tag_bindings(
+    def create_tag_hold(
         self,
-    ) -> Callable[
-        [tag_bindings.ListTagBindingsRequest], tag_bindings.ListTagBindingsResponse
-    ]:
-        r"""Return a callable for the list tag bindings method over gRPC.
+    ) -> Callable[[tag_holds.CreateTagHoldRequest], operations_pb2.Operation]:
+        r"""Return a callable for the create tag hold method over gRPC.
 
-        Lists the TagBindings for the given Google Cloud resource, as
-        specified with ``parent``.
-
-        NOTE: The ``parent`` field is expected to be a full resource
-        name:
-        https://cloud.google.com/apis/design/resource_names#full_resource_name
+        Creates a TagHold. Returns ALREADY_EXISTS if a TagHold with the
+        same resource and origin exists under the same TagValue.
 
         Returns:
-            Callable[[~.ListTagBindingsRequest],
-                    ~.ListTagBindingsResponse]:
-                A function that, when called, will call the underlying RPC
-                on the server.
-        """
-        # Generate a "stub function" on-the-fly which will actually make
-        # the request.
-        # gRPC handles serialization and deserialization, so we just need
-        # to pass in the functions for each.
-        if "list_tag_bindings" not in self._stubs:
-            self._stubs["list_tag_bindings"] = self.grpc_channel.unary_unary(
-                "/google.cloud.resourcemanager.v3.TagBindings/ListTagBindings",
-                request_serializer=tag_bindings.ListTagBindingsRequest.serialize,
-                response_deserializer=tag_bindings.ListTagBindingsResponse.deserialize,
-            )
-        return self._stubs["list_tag_bindings"]
-
-    @property
-    def create_tag_binding(
-        self,
-    ) -> Callable[[tag_bindings.CreateTagBindingRequest], operations_pb2.Operation]:
-        r"""Return a callable for the create tag binding method over gRPC.
-
-        Creates a TagBinding between a TagValue and a Google
-        Cloud resource.
-
-        Returns:
-            Callable[[~.CreateTagBindingRequest],
+            Callable[[~.CreateTagHoldRequest],
                     ~.Operation]:
                 A function that, when called, will call the underlying RPC
                 on the server.
@@ -298,24 +268,24 @@ class TagBindingsGrpcTransport(TagBindingsTransport):
         # the request.
         # gRPC handles serialization and deserialization, so we just need
         # to pass in the functions for each.
-        if "create_tag_binding" not in self._stubs:
-            self._stubs["create_tag_binding"] = self.grpc_channel.unary_unary(
-                "/google.cloud.resourcemanager.v3.TagBindings/CreateTagBinding",
-                request_serializer=tag_bindings.CreateTagBindingRequest.serialize,
+        if "create_tag_hold" not in self._stubs:
+            self._stubs["create_tag_hold"] = self.grpc_channel.unary_unary(
+                "/google.cloud.resourcemanager.v3.TagHolds/CreateTagHold",
+                request_serializer=tag_holds.CreateTagHoldRequest.serialize,
                 response_deserializer=operations_pb2.Operation.FromString,
             )
-        return self._stubs["create_tag_binding"]
+        return self._stubs["create_tag_hold"]
 
     @property
-    def delete_tag_binding(
+    def delete_tag_hold(
         self,
-    ) -> Callable[[tag_bindings.DeleteTagBindingRequest], operations_pb2.Operation]:
-        r"""Return a callable for the delete tag binding method over gRPC.
+    ) -> Callable[[tag_holds.DeleteTagHoldRequest], operations_pb2.Operation]:
+        r"""Return a callable for the delete tag hold method over gRPC.
 
-        Deletes a TagBinding.
+        Deletes a TagHold.
 
         Returns:
-            Callable[[~.DeleteTagBindingRequest],
+            Callable[[~.DeleteTagHoldRequest],
                     ~.Operation]:
                 A function that, when called, will call the underlying RPC
                 on the server.
@@ -324,28 +294,25 @@ class TagBindingsGrpcTransport(TagBindingsTransport):
         # the request.
         # gRPC handles serialization and deserialization, so we just need
         # to pass in the functions for each.
-        if "delete_tag_binding" not in self._stubs:
-            self._stubs["delete_tag_binding"] = self.grpc_channel.unary_unary(
-                "/google.cloud.resourcemanager.v3.TagBindings/DeleteTagBinding",
-                request_serializer=tag_bindings.DeleteTagBindingRequest.serialize,
+        if "delete_tag_hold" not in self._stubs:
+            self._stubs["delete_tag_hold"] = self.grpc_channel.unary_unary(
+                "/google.cloud.resourcemanager.v3.TagHolds/DeleteTagHold",
+                request_serializer=tag_holds.DeleteTagHoldRequest.serialize,
                 response_deserializer=operations_pb2.Operation.FromString,
             )
-        return self._stubs["delete_tag_binding"]
+        return self._stubs["delete_tag_hold"]
 
     @property
-    def list_effective_tags(
+    def list_tag_holds(
         self,
-    ) -> Callable[
-        [tag_bindings.ListEffectiveTagsRequest], tag_bindings.ListEffectiveTagsResponse
-    ]:
-        r"""Return a callable for the list effective tags method over gRPC.
+    ) -> Callable[[tag_holds.ListTagHoldsRequest], tag_holds.ListTagHoldsResponse]:
+        r"""Return a callable for the list tag holds method over gRPC.
 
-        Return a list of effective tags for the given Google Cloud
-        resource, as specified in ``parent``.
+        Lists TagHolds under a TagValue.
 
         Returns:
-            Callable[[~.ListEffectiveTagsRequest],
-                    ~.ListEffectiveTagsResponse]:
+            Callable[[~.ListTagHoldsRequest],
+                    ~.ListTagHoldsResponse]:
                 A function that, when called, will call the underlying RPC
                 on the server.
         """
@@ -353,13 +320,13 @@ class TagBindingsGrpcTransport(TagBindingsTransport):
         # the request.
         # gRPC handles serialization and deserialization, so we just need
         # to pass in the functions for each.
-        if "list_effective_tags" not in self._stubs:
-            self._stubs["list_effective_tags"] = self.grpc_channel.unary_unary(
-                "/google.cloud.resourcemanager.v3.TagBindings/ListEffectiveTags",
-                request_serializer=tag_bindings.ListEffectiveTagsRequest.serialize,
-                response_deserializer=tag_bindings.ListEffectiveTagsResponse.deserialize,
+        if "list_tag_holds" not in self._stubs:
+            self._stubs["list_tag_holds"] = self.grpc_channel.unary_unary(
+                "/google.cloud.resourcemanager.v3.TagHolds/ListTagHolds",
+                request_serializer=tag_holds.ListTagHoldsRequest.serialize,
+                response_deserializer=tag_holds.ListTagHoldsResponse.deserialize,
             )
-        return self._stubs["list_effective_tags"]
+        return self._stubs["list_tag_holds"]
 
     def close(self):
         self.grpc_channel.close()
@@ -386,4 +353,4 @@ class TagBindingsGrpcTransport(TagBindingsTransport):
         return "grpc"
 
 
-__all__ = ("TagBindingsGrpcTransport",)
+__all__ = ("TagHoldsGrpcTransport",)

@@ -45,10 +45,10 @@ except AttributeError:  # pragma: NO COVER
 
 from google.longrunning import operations_pb2  # type: ignore
 
-from google.cloud.resourcemanager_v3.types import tag_bindings
+from google.cloud.resourcemanager_v3.types import tag_holds
 
 from .base import DEFAULT_CLIENT_INFO as BASE_DEFAULT_CLIENT_INFO
-from .base import TagBindingsTransport
+from .base import TagHoldsTransport
 
 DEFAULT_CLIENT_INFO = gapic_v1.client_info.ClientInfo(
     gapic_version=BASE_DEFAULT_CLIENT_INFO.gapic_version,
@@ -57,8 +57,8 @@ DEFAULT_CLIENT_INFO = gapic_v1.client_info.ClientInfo(
 )
 
 
-class TagBindingsRestInterceptor:
-    """Interceptor for TagBindings.
+class TagHoldsRestInterceptor:
+    """Interceptor for TagHolds.
 
     Interceptors are used to manipulate requests, request metadata, and responses
     in arbitrary ways.
@@ -68,136 +68,105 @@ class TagBindingsRestInterceptor:
     * Stripping extraneous information from responses
 
     These use cases and more can be enabled by injecting an
-    instance of a custom subclass when constructing the TagBindingsRestTransport.
+    instance of a custom subclass when constructing the TagHoldsRestTransport.
 
     .. code-block:: python
-        class MyCustomTagBindingsInterceptor(TagBindingsRestInterceptor):
-            def pre_create_tag_binding(self, request, metadata):
+        class MyCustomTagHoldsInterceptor(TagHoldsRestInterceptor):
+            def pre_create_tag_hold(self, request, metadata):
                 logging.log(f"Received request: {request}")
                 return request, metadata
 
-            def post_create_tag_binding(self, response):
+            def post_create_tag_hold(self, response):
                 logging.log(f"Received response: {response}")
                 return response
 
-            def pre_delete_tag_binding(self, request, metadata):
+            def pre_delete_tag_hold(self, request, metadata):
                 logging.log(f"Received request: {request}")
                 return request, metadata
 
-            def post_delete_tag_binding(self, response):
+            def post_delete_tag_hold(self, response):
                 logging.log(f"Received response: {response}")
                 return response
 
-            def pre_list_effective_tags(self, request, metadata):
+            def pre_list_tag_holds(self, request, metadata):
                 logging.log(f"Received request: {request}")
                 return request, metadata
 
-            def post_list_effective_tags(self, response):
+            def post_list_tag_holds(self, response):
                 logging.log(f"Received response: {response}")
                 return response
 
-            def pre_list_tag_bindings(self, request, metadata):
-                logging.log(f"Received request: {request}")
-                return request, metadata
-
-            def post_list_tag_bindings(self, response):
-                logging.log(f"Received response: {response}")
-                return response
-
-        transport = TagBindingsRestTransport(interceptor=MyCustomTagBindingsInterceptor())
-        client = TagBindingsClient(transport=transport)
+        transport = TagHoldsRestTransport(interceptor=MyCustomTagHoldsInterceptor())
+        client = TagHoldsClient(transport=transport)
 
 
     """
 
-    def pre_create_tag_binding(
+    def pre_create_tag_hold(
         self,
-        request: tag_bindings.CreateTagBindingRequest,
+        request: tag_holds.CreateTagHoldRequest,
         metadata: Sequence[Tuple[str, str]],
-    ) -> Tuple[tag_bindings.CreateTagBindingRequest, Sequence[Tuple[str, str]]]:
-        """Pre-rpc interceptor for create_tag_binding
+    ) -> Tuple[tag_holds.CreateTagHoldRequest, Sequence[Tuple[str, str]]]:
+        """Pre-rpc interceptor for create_tag_hold
 
         Override in a subclass to manipulate the request or metadata
-        before they are sent to the TagBindings server.
+        before they are sent to the TagHolds server.
         """
         return request, metadata
 
-    def post_create_tag_binding(
+    def post_create_tag_hold(
         self, response: operations_pb2.Operation
     ) -> operations_pb2.Operation:
-        """Post-rpc interceptor for create_tag_binding
+        """Post-rpc interceptor for create_tag_hold
 
         Override in a subclass to manipulate the response
-        after it is returned by the TagBindings server but before
+        after it is returned by the TagHolds server but before
         it is returned to user code.
         """
         return response
 
-    def pre_delete_tag_binding(
+    def pre_delete_tag_hold(
         self,
-        request: tag_bindings.DeleteTagBindingRequest,
+        request: tag_holds.DeleteTagHoldRequest,
         metadata: Sequence[Tuple[str, str]],
-    ) -> Tuple[tag_bindings.DeleteTagBindingRequest, Sequence[Tuple[str, str]]]:
-        """Pre-rpc interceptor for delete_tag_binding
+    ) -> Tuple[tag_holds.DeleteTagHoldRequest, Sequence[Tuple[str, str]]]:
+        """Pre-rpc interceptor for delete_tag_hold
 
         Override in a subclass to manipulate the request or metadata
-        before they are sent to the TagBindings server.
+        before they are sent to the TagHolds server.
         """
         return request, metadata
 
-    def post_delete_tag_binding(
+    def post_delete_tag_hold(
         self, response: operations_pb2.Operation
     ) -> operations_pb2.Operation:
-        """Post-rpc interceptor for delete_tag_binding
+        """Post-rpc interceptor for delete_tag_hold
 
         Override in a subclass to manipulate the response
-        after it is returned by the TagBindings server but before
+        after it is returned by the TagHolds server but before
         it is returned to user code.
         """
         return response
 
-    def pre_list_effective_tags(
+    def pre_list_tag_holds(
         self,
-        request: tag_bindings.ListEffectiveTagsRequest,
+        request: tag_holds.ListTagHoldsRequest,
         metadata: Sequence[Tuple[str, str]],
-    ) -> Tuple[tag_bindings.ListEffectiveTagsRequest, Sequence[Tuple[str, str]]]:
-        """Pre-rpc interceptor for list_effective_tags
+    ) -> Tuple[tag_holds.ListTagHoldsRequest, Sequence[Tuple[str, str]]]:
+        """Pre-rpc interceptor for list_tag_holds
 
         Override in a subclass to manipulate the request or metadata
-        before they are sent to the TagBindings server.
+        before they are sent to the TagHolds server.
         """
         return request, metadata
 
-    def post_list_effective_tags(
-        self, response: tag_bindings.ListEffectiveTagsResponse
-    ) -> tag_bindings.ListEffectiveTagsResponse:
-        """Post-rpc interceptor for list_effective_tags
+    def post_list_tag_holds(
+        self, response: tag_holds.ListTagHoldsResponse
+    ) -> tag_holds.ListTagHoldsResponse:
+        """Post-rpc interceptor for list_tag_holds
 
         Override in a subclass to manipulate the response
-        after it is returned by the TagBindings server but before
-        it is returned to user code.
-        """
-        return response
-
-    def pre_list_tag_bindings(
-        self,
-        request: tag_bindings.ListTagBindingsRequest,
-        metadata: Sequence[Tuple[str, str]],
-    ) -> Tuple[tag_bindings.ListTagBindingsRequest, Sequence[Tuple[str, str]]]:
-        """Pre-rpc interceptor for list_tag_bindings
-
-        Override in a subclass to manipulate the request or metadata
-        before they are sent to the TagBindings server.
-        """
-        return request, metadata
-
-    def post_list_tag_bindings(
-        self, response: tag_bindings.ListTagBindingsResponse
-    ) -> tag_bindings.ListTagBindingsResponse:
-        """Post-rpc interceptor for list_tag_bindings
-
-        Override in a subclass to manipulate the response
-        after it is returned by the TagBindings server but before
+        after it is returned by the TagHolds server but before
         it is returned to user code.
         """
         return response
@@ -210,7 +179,7 @@ class TagBindingsRestInterceptor:
         """Pre-rpc interceptor for get_operation
 
         Override in a subclass to manipulate the request or metadata
-        before they are sent to the TagBindings server.
+        before they are sent to the TagHolds server.
         """
         return request, metadata
 
@@ -220,25 +189,28 @@ class TagBindingsRestInterceptor:
         """Post-rpc interceptor for get_operation
 
         Override in a subclass to manipulate the response
-        after it is returned by the TagBindings server but before
+        after it is returned by the TagHolds server but before
         it is returned to user code.
         """
         return response
 
 
 @dataclasses.dataclass
-class TagBindingsRestStub:
+class TagHoldsRestStub:
     _session: AuthorizedSession
     _host: str
-    _interceptor: TagBindingsRestInterceptor
+    _interceptor: TagHoldsRestInterceptor
 
 
-class TagBindingsRestTransport(TagBindingsTransport):
-    """REST backend transport for TagBindings.
+class TagHoldsRestTransport(TagHoldsTransport):
+    """REST backend transport for TagHolds.
 
-    Allow users to create and manage TagBindings between
-    TagValues and different Google Cloud resources throughout the
-    GCP resource hierarchy.
+    Allow users to create and manage TagHolds for TagValues.
+    TagHolds represent the use of a Tag Value that is not captured
+    by TagBindings but should still block TagValue deletion (such as
+    a reference in a policy condition). This service provides
+    isolated failure domains by cloud location so that TagHolds can
+    be managed in the same location as their usage.
 
     This class defines the same methods as the primary client, so the
     primary client can load the underlying transport implementation
@@ -260,7 +232,7 @@ class TagBindingsRestTransport(TagBindingsTransport):
         client_info: gapic_v1.client_info.ClientInfo = DEFAULT_CLIENT_INFO,
         always_use_jwt_access: Optional[bool] = False,
         url_scheme: str = "https",
-        interceptor: Optional[TagBindingsRestInterceptor] = None,
+        interceptor: Optional[TagHoldsRestInterceptor] = None,
         api_audience: Optional[str] = None,
     ) -> None:
         """Instantiate the transport.
@@ -322,7 +294,7 @@ class TagBindingsRestTransport(TagBindingsTransport):
         self._operations_client: Optional[operations_v1.AbstractOperationsClient] = None
         if client_cert_source_for_mtls:
             self._session.configure_mtls_channel(client_cert_source_for_mtls)
-        self._interceptor = interceptor or TagBindingsRestInterceptor()
+        self._interceptor = interceptor or TagHoldsRestInterceptor()
         self._prep_wrapped_messages(client_info)
 
     @property
@@ -359,9 +331,9 @@ class TagBindingsRestTransport(TagBindingsTransport):
         # Return the client from cache.
         return self._operations_client
 
-    class _CreateTagBinding(TagBindingsRestStub):
+    class _CreateTagHold(TagHoldsRestStub):
         def __hash__(self):
-            return hash("CreateTagBinding")
+            return hash("CreateTagHold")
 
         __REQUIRED_FIELDS_DEFAULT_VALUES: Dict[str, Any] = {}
 
@@ -375,18 +347,18 @@ class TagBindingsRestTransport(TagBindingsTransport):
 
         def __call__(
             self,
-            request: tag_bindings.CreateTagBindingRequest,
+            request: tag_holds.CreateTagHoldRequest,
             *,
             retry: OptionalRetry = gapic_v1.method.DEFAULT,
             timeout: Optional[float] = None,
             metadata: Sequence[Tuple[str, str]] = (),
         ) -> operations_pb2.Operation:
-            r"""Call the create tag binding method over HTTP.
+            r"""Call the create tag hold method over HTTP.
 
             Args:
-                request (~.tag_bindings.CreateTagBindingRequest):
+                request (~.tag_holds.CreateTagHoldRequest):
                     The request object. The request message to create a
-                TagBinding.
+                TagHold.
                 retry (google.api_core.retry.Retry): Designation of what errors, if any,
                     should be retried.
                 timeout (float): The timeout for this request.
@@ -404,14 +376,12 @@ class TagBindingsRestTransport(TagBindingsTransport):
             http_options: List[Dict[str, str]] = [
                 {
                     "method": "post",
-                    "uri": "/v3/tagBindings",
-                    "body": "tag_binding",
+                    "uri": "/v3/{parent=tagValues/*}/tagHolds",
+                    "body": "tag_hold",
                 },
             ]
-            request, metadata = self._interceptor.pre_create_tag_binding(
-                request, metadata
-            )
-            pb_request = tag_bindings.CreateTagBindingRequest.pb(request)
+            request, metadata = self._interceptor.pre_create_tag_hold(request, metadata)
+            pb_request = tag_holds.CreateTagHoldRequest.pb(request)
             transcoded_request = path_template.transcode(http_options, pb_request)
 
             # Jsonify the request body
@@ -455,12 +425,12 @@ class TagBindingsRestTransport(TagBindingsTransport):
             # Return the response
             resp = operations_pb2.Operation()
             json_format.Parse(response.content, resp, ignore_unknown_fields=True)
-            resp = self._interceptor.post_create_tag_binding(resp)
+            resp = self._interceptor.post_create_tag_hold(resp)
             return resp
 
-    class _DeleteTagBinding(TagBindingsRestStub):
+    class _DeleteTagHold(TagHoldsRestStub):
         def __hash__(self):
-            return hash("DeleteTagBinding")
+            return hash("DeleteTagHold")
 
         __REQUIRED_FIELDS_DEFAULT_VALUES: Dict[str, Any] = {}
 
@@ -474,18 +444,18 @@ class TagBindingsRestTransport(TagBindingsTransport):
 
         def __call__(
             self,
-            request: tag_bindings.DeleteTagBindingRequest,
+            request: tag_holds.DeleteTagHoldRequest,
             *,
             retry: OptionalRetry = gapic_v1.method.DEFAULT,
             timeout: Optional[float] = None,
             metadata: Sequence[Tuple[str, str]] = (),
         ) -> operations_pb2.Operation:
-            r"""Call the delete tag binding method over HTTP.
+            r"""Call the delete tag hold method over HTTP.
 
             Args:
-                request (~.tag_bindings.DeleteTagBindingRequest):
+                request (~.tag_holds.DeleteTagHoldRequest):
                     The request object. The request message to delete a
-                TagBinding.
+                TagHold.
                 retry (google.api_core.retry.Retry): Designation of what errors, if any,
                     should be retried.
                 timeout (float): The timeout for this request.
@@ -503,13 +473,11 @@ class TagBindingsRestTransport(TagBindingsTransport):
             http_options: List[Dict[str, str]] = [
                 {
                     "method": "delete",
-                    "uri": "/v3/{name=tagBindings/**}",
+                    "uri": "/v3/{name=tagValues/*/tagHolds/*}",
                 },
             ]
-            request, metadata = self._interceptor.pre_delete_tag_binding(
-                request, metadata
-            )
-            pb_request = tag_bindings.DeleteTagBindingRequest.pb(request)
+            request, metadata = self._interceptor.pre_delete_tag_hold(request, metadata)
+            pb_request = tag_holds.DeleteTagHoldRequest.pb(request)
             transcoded_request = path_template.transcode(http_options, pb_request)
 
             uri = transcoded_request["uri"]
@@ -545,16 +513,14 @@ class TagBindingsRestTransport(TagBindingsTransport):
             # Return the response
             resp = operations_pb2.Operation()
             json_format.Parse(response.content, resp, ignore_unknown_fields=True)
-            resp = self._interceptor.post_delete_tag_binding(resp)
+            resp = self._interceptor.post_delete_tag_hold(resp)
             return resp
 
-    class _ListEffectiveTags(TagBindingsRestStub):
+    class _ListTagHolds(TagHoldsRestStub):
         def __hash__(self):
-            return hash("ListEffectiveTags")
+            return hash("ListTagHolds")
 
-        __REQUIRED_FIELDS_DEFAULT_VALUES: Dict[str, Any] = {
-            "parent": "",
-        }
+        __REQUIRED_FIELDS_DEFAULT_VALUES: Dict[str, Any] = {}
 
         @classmethod
         def _get_unset_required_fields(cls, message_dict):
@@ -566,18 +532,18 @@ class TagBindingsRestTransport(TagBindingsTransport):
 
         def __call__(
             self,
-            request: tag_bindings.ListEffectiveTagsRequest,
+            request: tag_holds.ListTagHoldsRequest,
             *,
             retry: OptionalRetry = gapic_v1.method.DEFAULT,
             timeout: Optional[float] = None,
             metadata: Sequence[Tuple[str, str]] = (),
-        ) -> tag_bindings.ListEffectiveTagsResponse:
-            r"""Call the list effective tags method over HTTP.
+        ) -> tag_holds.ListTagHoldsResponse:
+            r"""Call the list tag holds method over HTTP.
 
             Args:
-                request (~.tag_bindings.ListEffectiveTagsRequest):
-                    The request object. The request message to
-                ListEffectiveTags
+                request (~.tag_holds.ListTagHoldsRequest):
+                    The request object. The request message for listing the
+                TagHolds under a TagValue.
                 retry (google.api_core.retry.Retry): Designation of what errors, if any,
                     should be retried.
                 timeout (float): The timeout for this request.
@@ -585,20 +551,18 @@ class TagBindingsRestTransport(TagBindingsTransport):
                     sent along with the request as metadata.
 
             Returns:
-                ~.tag_bindings.ListEffectiveTagsResponse:
-                    The response of ListEffectiveTags.
+                ~.tag_holds.ListTagHoldsResponse:
+                    The ListTagHolds response.
             """
 
             http_options: List[Dict[str, str]] = [
                 {
                     "method": "get",
-                    "uri": "/v3/effectiveTags",
+                    "uri": "/v3/{parent=tagValues/*}/tagHolds",
                 },
             ]
-            request, metadata = self._interceptor.pre_list_effective_tags(
-                request, metadata
-            )
-            pb_request = tag_bindings.ListEffectiveTagsRequest.pb(request)
+            request, metadata = self._interceptor.pre_list_tag_holds(request, metadata)
+            pb_request = tag_holds.ListTagHoldsRequest.pb(request)
             transcoded_request = path_template.transcode(http_options, pb_request)
 
             uri = transcoded_request["uri"]
@@ -632,145 +596,42 @@ class TagBindingsRestTransport(TagBindingsTransport):
                 raise core_exceptions.from_http_response(response)
 
             # Return the response
-            resp = tag_bindings.ListEffectiveTagsResponse()
-            pb_resp = tag_bindings.ListEffectiveTagsResponse.pb(resp)
+            resp = tag_holds.ListTagHoldsResponse()
+            pb_resp = tag_holds.ListTagHoldsResponse.pb(resp)
 
             json_format.Parse(response.content, pb_resp, ignore_unknown_fields=True)
-            resp = self._interceptor.post_list_effective_tags(resp)
-            return resp
-
-    class _ListTagBindings(TagBindingsRestStub):
-        def __hash__(self):
-            return hash("ListTagBindings")
-
-        __REQUIRED_FIELDS_DEFAULT_VALUES: Dict[str, Any] = {
-            "parent": "",
-        }
-
-        @classmethod
-        def _get_unset_required_fields(cls, message_dict):
-            return {
-                k: v
-                for k, v in cls.__REQUIRED_FIELDS_DEFAULT_VALUES.items()
-                if k not in message_dict
-            }
-
-        def __call__(
-            self,
-            request: tag_bindings.ListTagBindingsRequest,
-            *,
-            retry: OptionalRetry = gapic_v1.method.DEFAULT,
-            timeout: Optional[float] = None,
-            metadata: Sequence[Tuple[str, str]] = (),
-        ) -> tag_bindings.ListTagBindingsResponse:
-            r"""Call the list tag bindings method over HTTP.
-
-            Args:
-                request (~.tag_bindings.ListTagBindingsRequest):
-                    The request object. The request message to list all
-                TagBindings for a parent.
-                retry (google.api_core.retry.Retry): Designation of what errors, if any,
-                    should be retried.
-                timeout (float): The timeout for this request.
-                metadata (Sequence[Tuple[str, str]]): Strings which should be
-                    sent along with the request as metadata.
-
-            Returns:
-                ~.tag_bindings.ListTagBindingsResponse:
-                    The ListTagBindings response.
-            """
-
-            http_options: List[Dict[str, str]] = [
-                {
-                    "method": "get",
-                    "uri": "/v3/tagBindings",
-                },
-            ]
-            request, metadata = self._interceptor.pre_list_tag_bindings(
-                request, metadata
-            )
-            pb_request = tag_bindings.ListTagBindingsRequest.pb(request)
-            transcoded_request = path_template.transcode(http_options, pb_request)
-
-            uri = transcoded_request["uri"]
-            method = transcoded_request["method"]
-
-            # Jsonify the query params
-            query_params = json.loads(
-                json_format.MessageToJson(
-                    transcoded_request["query_params"],
-                    including_default_value_fields=False,
-                    use_integers_for_enums=True,
-                )
-            )
-            query_params.update(self._get_unset_required_fields(query_params))
-
-            query_params["$alt"] = "json;enum-encoding=int"
-
-            # Send the request
-            headers = dict(metadata)
-            headers["Content-Type"] = "application/json"
-            response = getattr(self._session, method)(
-                "{host}{uri}".format(host=self._host, uri=uri),
-                timeout=timeout,
-                headers=headers,
-                params=rest_helpers.flatten_query_params(query_params, strict=True),
-            )
-
-            # In case of error, raise the appropriate core_exceptions.GoogleAPICallError exception
-            # subclass.
-            if response.status_code >= 400:
-                raise core_exceptions.from_http_response(response)
-
-            # Return the response
-            resp = tag_bindings.ListTagBindingsResponse()
-            pb_resp = tag_bindings.ListTagBindingsResponse.pb(resp)
-
-            json_format.Parse(response.content, pb_resp, ignore_unknown_fields=True)
-            resp = self._interceptor.post_list_tag_bindings(resp)
+            resp = self._interceptor.post_list_tag_holds(resp)
             return resp
 
     @property
-    def create_tag_binding(
+    def create_tag_hold(
         self,
-    ) -> Callable[[tag_bindings.CreateTagBindingRequest], operations_pb2.Operation]:
+    ) -> Callable[[tag_holds.CreateTagHoldRequest], operations_pb2.Operation]:
         # The return type is fine, but mypy isn't sophisticated enough to determine what's going on here.
         # In C++ this would require a dynamic_cast
-        return self._CreateTagBinding(self._session, self._host, self._interceptor)  # type: ignore
+        return self._CreateTagHold(self._session, self._host, self._interceptor)  # type: ignore
 
     @property
-    def delete_tag_binding(
+    def delete_tag_hold(
         self,
-    ) -> Callable[[tag_bindings.DeleteTagBindingRequest], operations_pb2.Operation]:
+    ) -> Callable[[tag_holds.DeleteTagHoldRequest], operations_pb2.Operation]:
         # The return type is fine, but mypy isn't sophisticated enough to determine what's going on here.
         # In C++ this would require a dynamic_cast
-        return self._DeleteTagBinding(self._session, self._host, self._interceptor)  # type: ignore
+        return self._DeleteTagHold(self._session, self._host, self._interceptor)  # type: ignore
 
     @property
-    def list_effective_tags(
+    def list_tag_holds(
         self,
-    ) -> Callable[
-        [tag_bindings.ListEffectiveTagsRequest], tag_bindings.ListEffectiveTagsResponse
-    ]:
+    ) -> Callable[[tag_holds.ListTagHoldsRequest], tag_holds.ListTagHoldsResponse]:
         # The return type is fine, but mypy isn't sophisticated enough to determine what's going on here.
         # In C++ this would require a dynamic_cast
-        return self._ListEffectiveTags(self._session, self._host, self._interceptor)  # type: ignore
-
-    @property
-    def list_tag_bindings(
-        self,
-    ) -> Callable[
-        [tag_bindings.ListTagBindingsRequest], tag_bindings.ListTagBindingsResponse
-    ]:
-        # The return type is fine, but mypy isn't sophisticated enough to determine what's going on here.
-        # In C++ this would require a dynamic_cast
-        return self._ListTagBindings(self._session, self._host, self._interceptor)  # type: ignore
+        return self._ListTagHolds(self._session, self._host, self._interceptor)  # type: ignore
 
     @property
     def get_operation(self):
         return self._GetOperation(self._session, self._host, self._interceptor)  # type: ignore
 
-    class _GetOperation(TagBindingsRestStub):
+    class _GetOperation(TagHoldsRestStub):
         def __call__(
             self,
             request: operations_pb2.GetOperationRequest,
@@ -841,4 +702,4 @@ class TagBindingsRestTransport(TagBindingsTransport):
         self._session.close()
 
 
-__all__ = ("TagBindingsRestTransport",)
+__all__ = ("TagHoldsRestTransport",)

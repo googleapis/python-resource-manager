@@ -19,22 +19,25 @@ import warnings
 from google.api_core import gapic_v1, grpc_helpers_async, operations_v1
 from google.auth import credentials as ga_credentials  # type: ignore
 from google.auth.transport.grpc import SslCredentials  # type: ignore
-from google.iam.v1 import iam_policy_pb2  # type: ignore
-from google.iam.v1 import policy_pb2  # type: ignore
 from google.longrunning import operations_pb2  # type: ignore
 import grpc  # type: ignore
 from grpc.experimental import aio  # type: ignore
 
-from google.cloud.resourcemanager_v3.types import tag_values
+from google.cloud.resourcemanager_v3.types import tag_holds
 
-from .base import DEFAULT_CLIENT_INFO, TagValuesTransport
-from .grpc import TagValuesGrpcTransport
+from .base import DEFAULT_CLIENT_INFO, TagHoldsTransport
+from .grpc import TagHoldsGrpcTransport
 
 
-class TagValuesGrpcAsyncIOTransport(TagValuesTransport):
-    """gRPC AsyncIO backend transport for TagValues.
+class TagHoldsGrpcAsyncIOTransport(TagHoldsTransport):
+    """gRPC AsyncIO backend transport for TagHolds.
 
-    Allow users to create and manage tag values.
+    Allow users to create and manage TagHolds for TagValues.
+    TagHolds represent the use of a Tag Value that is not captured
+    by TagBindings but should still block TagValue deletion (such as
+    a reference in a policy condition). This service provides
+    isolated failure domains by cloud location so that TagHolds can
+    be managed in the same location as their usage.
 
     This class defines the same methods as the primary client, so the
     primary client can load the underlying transport implementation
@@ -252,107 +255,18 @@ class TagValuesGrpcAsyncIOTransport(TagValuesTransport):
         return self._operations_client
 
     @property
-    def list_tag_values(
+    def create_tag_hold(
         self,
     ) -> Callable[
-        [tag_values.ListTagValuesRequest], Awaitable[tag_values.ListTagValuesResponse]
+        [tag_holds.CreateTagHoldRequest], Awaitable[operations_pb2.Operation]
     ]:
-        r"""Return a callable for the list tag values method over gRPC.
+        r"""Return a callable for the create tag hold method over gRPC.
 
-        Lists all TagValues for a specific TagKey.
-
-        Returns:
-            Callable[[~.ListTagValuesRequest],
-                    Awaitable[~.ListTagValuesResponse]]:
-                A function that, when called, will call the underlying RPC
-                on the server.
-        """
-        # Generate a "stub function" on-the-fly which will actually make
-        # the request.
-        # gRPC handles serialization and deserialization, so we just need
-        # to pass in the functions for each.
-        if "list_tag_values" not in self._stubs:
-            self._stubs["list_tag_values"] = self.grpc_channel.unary_unary(
-                "/google.cloud.resourcemanager.v3.TagValues/ListTagValues",
-                request_serializer=tag_values.ListTagValuesRequest.serialize,
-                response_deserializer=tag_values.ListTagValuesResponse.deserialize,
-            )
-        return self._stubs["list_tag_values"]
-
-    @property
-    def get_tag_value(
-        self,
-    ) -> Callable[[tag_values.GetTagValueRequest], Awaitable[tag_values.TagValue]]:
-        r"""Return a callable for the get tag value method over gRPC.
-
-        Retrieves a TagValue. This method will return
-        ``PERMISSION_DENIED`` if the value does not exist or the user
-        does not have permission to view it.
+        Creates a TagHold. Returns ALREADY_EXISTS if a TagHold with the
+        same resource and origin exists under the same TagValue.
 
         Returns:
-            Callable[[~.GetTagValueRequest],
-                    Awaitable[~.TagValue]]:
-                A function that, when called, will call the underlying RPC
-                on the server.
-        """
-        # Generate a "stub function" on-the-fly which will actually make
-        # the request.
-        # gRPC handles serialization and deserialization, so we just need
-        # to pass in the functions for each.
-        if "get_tag_value" not in self._stubs:
-            self._stubs["get_tag_value"] = self.grpc_channel.unary_unary(
-                "/google.cloud.resourcemanager.v3.TagValues/GetTagValue",
-                request_serializer=tag_values.GetTagValueRequest.serialize,
-                response_deserializer=tag_values.TagValue.deserialize,
-            )
-        return self._stubs["get_tag_value"]
-
-    @property
-    def get_namespaced_tag_value(
-        self,
-    ) -> Callable[
-        [tag_values.GetNamespacedTagValueRequest], Awaitable[tag_values.TagValue]
-    ]:
-        r"""Return a callable for the get namespaced tag value method over gRPC.
-
-        Retrieves a TagValue by its namespaced name. This method will
-        return ``PERMISSION_DENIED`` if the value does not exist or the
-        user does not have permission to view it.
-
-        Returns:
-            Callable[[~.GetNamespacedTagValueRequest],
-                    Awaitable[~.TagValue]]:
-                A function that, when called, will call the underlying RPC
-                on the server.
-        """
-        # Generate a "stub function" on-the-fly which will actually make
-        # the request.
-        # gRPC handles serialization and deserialization, so we just need
-        # to pass in the functions for each.
-        if "get_namespaced_tag_value" not in self._stubs:
-            self._stubs["get_namespaced_tag_value"] = self.grpc_channel.unary_unary(
-                "/google.cloud.resourcemanager.v3.TagValues/GetNamespacedTagValue",
-                request_serializer=tag_values.GetNamespacedTagValueRequest.serialize,
-                response_deserializer=tag_values.TagValue.deserialize,
-            )
-        return self._stubs["get_namespaced_tag_value"]
-
-    @property
-    def create_tag_value(
-        self,
-    ) -> Callable[
-        [tag_values.CreateTagValueRequest], Awaitable[operations_pb2.Operation]
-    ]:
-        r"""Return a callable for the create tag value method over gRPC.
-
-        Creates a TagValue as a child of the specified
-        TagKey. If a another request with the same parameters is
-        sent while the original request is in process the second
-        request will receive an error. A maximum of 1000
-        TagValues can exist under a TagKey at any given time.
-
-        Returns:
-            Callable[[~.CreateTagValueRequest],
+            Callable[[~.CreateTagHoldRequest],
                     Awaitable[~.Operation]]:
                 A function that, when called, will call the underlying RPC
                 on the server.
@@ -361,26 +275,26 @@ class TagValuesGrpcAsyncIOTransport(TagValuesTransport):
         # the request.
         # gRPC handles serialization and deserialization, so we just need
         # to pass in the functions for each.
-        if "create_tag_value" not in self._stubs:
-            self._stubs["create_tag_value"] = self.grpc_channel.unary_unary(
-                "/google.cloud.resourcemanager.v3.TagValues/CreateTagValue",
-                request_serializer=tag_values.CreateTagValueRequest.serialize,
+        if "create_tag_hold" not in self._stubs:
+            self._stubs["create_tag_hold"] = self.grpc_channel.unary_unary(
+                "/google.cloud.resourcemanager.v3.TagHolds/CreateTagHold",
+                request_serializer=tag_holds.CreateTagHoldRequest.serialize,
                 response_deserializer=operations_pb2.Operation.FromString,
             )
-        return self._stubs["create_tag_value"]
+        return self._stubs["create_tag_hold"]
 
     @property
-    def update_tag_value(
+    def delete_tag_hold(
         self,
     ) -> Callable[
-        [tag_values.UpdateTagValueRequest], Awaitable[operations_pb2.Operation]
+        [tag_holds.DeleteTagHoldRequest], Awaitable[operations_pb2.Operation]
     ]:
-        r"""Return a callable for the update tag value method over gRPC.
+        r"""Return a callable for the delete tag hold method over gRPC.
 
-        Updates the attributes of the TagValue resource.
+        Deletes a TagHold.
 
         Returns:
-            Callable[[~.UpdateTagValueRequest],
+            Callable[[~.DeleteTagHoldRequest],
                     Awaitable[~.Operation]]:
                 A function that, when called, will call the underlying RPC
                 on the server.
@@ -389,28 +303,27 @@ class TagValuesGrpcAsyncIOTransport(TagValuesTransport):
         # the request.
         # gRPC handles serialization and deserialization, so we just need
         # to pass in the functions for each.
-        if "update_tag_value" not in self._stubs:
-            self._stubs["update_tag_value"] = self.grpc_channel.unary_unary(
-                "/google.cloud.resourcemanager.v3.TagValues/UpdateTagValue",
-                request_serializer=tag_values.UpdateTagValueRequest.serialize,
+        if "delete_tag_hold" not in self._stubs:
+            self._stubs["delete_tag_hold"] = self.grpc_channel.unary_unary(
+                "/google.cloud.resourcemanager.v3.TagHolds/DeleteTagHold",
+                request_serializer=tag_holds.DeleteTagHoldRequest.serialize,
                 response_deserializer=operations_pb2.Operation.FromString,
             )
-        return self._stubs["update_tag_value"]
+        return self._stubs["delete_tag_hold"]
 
     @property
-    def delete_tag_value(
+    def list_tag_holds(
         self,
     ) -> Callable[
-        [tag_values.DeleteTagValueRequest], Awaitable[operations_pb2.Operation]
+        [tag_holds.ListTagHoldsRequest], Awaitable[tag_holds.ListTagHoldsResponse]
     ]:
-        r"""Return a callable for the delete tag value method over gRPC.
+        r"""Return a callable for the list tag holds method over gRPC.
 
-        Deletes a TagValue. The TagValue cannot have any
-        bindings when it is deleted.
+        Lists TagHolds under a TagValue.
 
         Returns:
-            Callable[[~.DeleteTagValueRequest],
-                    Awaitable[~.Operation]]:
+            Callable[[~.ListTagHoldsRequest],
+                    Awaitable[~.ListTagHoldsResponse]]:
                 A function that, when called, will call the underlying RPC
                 on the server.
         """
@@ -418,108 +331,13 @@ class TagValuesGrpcAsyncIOTransport(TagValuesTransport):
         # the request.
         # gRPC handles serialization and deserialization, so we just need
         # to pass in the functions for each.
-        if "delete_tag_value" not in self._stubs:
-            self._stubs["delete_tag_value"] = self.grpc_channel.unary_unary(
-                "/google.cloud.resourcemanager.v3.TagValues/DeleteTagValue",
-                request_serializer=tag_values.DeleteTagValueRequest.serialize,
-                response_deserializer=operations_pb2.Operation.FromString,
+        if "list_tag_holds" not in self._stubs:
+            self._stubs["list_tag_holds"] = self.grpc_channel.unary_unary(
+                "/google.cloud.resourcemanager.v3.TagHolds/ListTagHolds",
+                request_serializer=tag_holds.ListTagHoldsRequest.serialize,
+                response_deserializer=tag_holds.ListTagHoldsResponse.deserialize,
             )
-        return self._stubs["delete_tag_value"]
-
-    @property
-    def get_iam_policy(
-        self,
-    ) -> Callable[[iam_policy_pb2.GetIamPolicyRequest], Awaitable[policy_pb2.Policy]]:
-        r"""Return a callable for the get iam policy method over gRPC.
-
-        Gets the access control policy for a TagValue. The returned
-        policy may be empty if no such policy or resource exists. The
-        ``resource`` field should be the TagValue's resource name. For
-        example: ``tagValues/1234``. The caller must have the
-        ``cloudresourcemanager.googleapis.com/tagValues.getIamPolicy``
-        permission on the identified TagValue to get the access control
-        policy.
-
-        Returns:
-            Callable[[~.GetIamPolicyRequest],
-                    Awaitable[~.Policy]]:
-                A function that, when called, will call the underlying RPC
-                on the server.
-        """
-        # Generate a "stub function" on-the-fly which will actually make
-        # the request.
-        # gRPC handles serialization and deserialization, so we just need
-        # to pass in the functions for each.
-        if "get_iam_policy" not in self._stubs:
-            self._stubs["get_iam_policy"] = self.grpc_channel.unary_unary(
-                "/google.cloud.resourcemanager.v3.TagValues/GetIamPolicy",
-                request_serializer=iam_policy_pb2.GetIamPolicyRequest.SerializeToString,
-                response_deserializer=policy_pb2.Policy.FromString,
-            )
-        return self._stubs["get_iam_policy"]
-
-    @property
-    def set_iam_policy(
-        self,
-    ) -> Callable[[iam_policy_pb2.SetIamPolicyRequest], Awaitable[policy_pb2.Policy]]:
-        r"""Return a callable for the set iam policy method over gRPC.
-
-        Sets the access control policy on a TagValue, replacing any
-        existing policy. The ``resource`` field should be the TagValue's
-        resource name. For example: ``tagValues/1234``. The caller must
-        have ``resourcemanager.tagValues.setIamPolicy`` permission on
-        the identified tagValue.
-
-        Returns:
-            Callable[[~.SetIamPolicyRequest],
-                    Awaitable[~.Policy]]:
-                A function that, when called, will call the underlying RPC
-                on the server.
-        """
-        # Generate a "stub function" on-the-fly which will actually make
-        # the request.
-        # gRPC handles serialization and deserialization, so we just need
-        # to pass in the functions for each.
-        if "set_iam_policy" not in self._stubs:
-            self._stubs["set_iam_policy"] = self.grpc_channel.unary_unary(
-                "/google.cloud.resourcemanager.v3.TagValues/SetIamPolicy",
-                request_serializer=iam_policy_pb2.SetIamPolicyRequest.SerializeToString,
-                response_deserializer=policy_pb2.Policy.FromString,
-            )
-        return self._stubs["set_iam_policy"]
-
-    @property
-    def test_iam_permissions(
-        self,
-    ) -> Callable[
-        [iam_policy_pb2.TestIamPermissionsRequest],
-        Awaitable[iam_policy_pb2.TestIamPermissionsResponse],
-    ]:
-        r"""Return a callable for the test iam permissions method over gRPC.
-
-        Returns permissions that a caller has on the specified TagValue.
-        The ``resource`` field should be the TagValue's resource name.
-        For example: ``tagValues/1234``.
-
-        There are no permissions required for making this API call.
-
-        Returns:
-            Callable[[~.TestIamPermissionsRequest],
-                    Awaitable[~.TestIamPermissionsResponse]]:
-                A function that, when called, will call the underlying RPC
-                on the server.
-        """
-        # Generate a "stub function" on-the-fly which will actually make
-        # the request.
-        # gRPC handles serialization and deserialization, so we just need
-        # to pass in the functions for each.
-        if "test_iam_permissions" not in self._stubs:
-            self._stubs["test_iam_permissions"] = self.grpc_channel.unary_unary(
-                "/google.cloud.resourcemanager.v3.TagValues/TestIamPermissions",
-                request_serializer=iam_policy_pb2.TestIamPermissionsRequest.SerializeToString,
-                response_deserializer=iam_policy_pb2.TestIamPermissionsResponse.FromString,
-            )
-        return self._stubs["test_iam_permissions"]
+        return self._stubs["list_tag_holds"]
 
     def close(self):
         return self.grpc_channel.close()
@@ -542,4 +360,4 @@ class TagValuesGrpcAsyncIOTransport(TagValuesTransport):
         return self._stubs["get_operation"]
 
 
-__all__ = ("TagValuesGrpcAsyncIOTransport",)
+__all__ = ("TagHoldsGrpcAsyncIOTransport",)

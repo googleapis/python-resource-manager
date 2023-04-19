@@ -47,51 +47,46 @@ from google.api_core import operation_async  # type: ignore
 from google.longrunning import operations_pb2
 from google.protobuf import empty_pb2  # type: ignore
 
-from google.cloud.resourcemanager_v3.services.tag_bindings import pagers
-from google.cloud.resourcemanager_v3.types import tag_bindings
+from google.cloud.resourcemanager_v3.services.tag_holds import pagers
+from google.cloud.resourcemanager_v3.types import tag_holds
 
-from .client import TagBindingsClient
-from .transports.base import DEFAULT_CLIENT_INFO, TagBindingsTransport
-from .transports.grpc_asyncio import TagBindingsGrpcAsyncIOTransport
+from .client import TagHoldsClient
+from .transports.base import DEFAULT_CLIENT_INFO, TagHoldsTransport
+from .transports.grpc_asyncio import TagHoldsGrpcAsyncIOTransport
 
 
-class TagBindingsAsyncClient:
-    """Allow users to create and manage TagBindings between
-    TagValues and different Google Cloud resources throughout the
-    GCP resource hierarchy.
+class TagHoldsAsyncClient:
+    """Allow users to create and manage TagHolds for TagValues.
+    TagHolds represent the use of a Tag Value that is not captured
+    by TagBindings but should still block TagValue deletion (such as
+    a reference in a policy condition). This service provides
+    isolated failure domains by cloud location so that TagHolds can
+    be managed in the same location as their usage.
     """
 
-    _client: TagBindingsClient
+    _client: TagHoldsClient
 
-    DEFAULT_ENDPOINT = TagBindingsClient.DEFAULT_ENDPOINT
-    DEFAULT_MTLS_ENDPOINT = TagBindingsClient.DEFAULT_MTLS_ENDPOINT
+    DEFAULT_ENDPOINT = TagHoldsClient.DEFAULT_ENDPOINT
+    DEFAULT_MTLS_ENDPOINT = TagHoldsClient.DEFAULT_MTLS_ENDPOINT
 
-    tag_binding_path = staticmethod(TagBindingsClient.tag_binding_path)
-    parse_tag_binding_path = staticmethod(TagBindingsClient.parse_tag_binding_path)
-    tag_key_path = staticmethod(TagBindingsClient.tag_key_path)
-    parse_tag_key_path = staticmethod(TagBindingsClient.parse_tag_key_path)
-    tag_value_path = staticmethod(TagBindingsClient.tag_value_path)
-    parse_tag_value_path = staticmethod(TagBindingsClient.parse_tag_value_path)
+    tag_hold_path = staticmethod(TagHoldsClient.tag_hold_path)
+    parse_tag_hold_path = staticmethod(TagHoldsClient.parse_tag_hold_path)
     common_billing_account_path = staticmethod(
-        TagBindingsClient.common_billing_account_path
+        TagHoldsClient.common_billing_account_path
     )
     parse_common_billing_account_path = staticmethod(
-        TagBindingsClient.parse_common_billing_account_path
+        TagHoldsClient.parse_common_billing_account_path
     )
-    common_folder_path = staticmethod(TagBindingsClient.common_folder_path)
-    parse_common_folder_path = staticmethod(TagBindingsClient.parse_common_folder_path)
-    common_organization_path = staticmethod(TagBindingsClient.common_organization_path)
+    common_folder_path = staticmethod(TagHoldsClient.common_folder_path)
+    parse_common_folder_path = staticmethod(TagHoldsClient.parse_common_folder_path)
+    common_organization_path = staticmethod(TagHoldsClient.common_organization_path)
     parse_common_organization_path = staticmethod(
-        TagBindingsClient.parse_common_organization_path
+        TagHoldsClient.parse_common_organization_path
     )
-    common_project_path = staticmethod(TagBindingsClient.common_project_path)
-    parse_common_project_path = staticmethod(
-        TagBindingsClient.parse_common_project_path
-    )
-    common_location_path = staticmethod(TagBindingsClient.common_location_path)
-    parse_common_location_path = staticmethod(
-        TagBindingsClient.parse_common_location_path
-    )
+    common_project_path = staticmethod(TagHoldsClient.common_project_path)
+    parse_common_project_path = staticmethod(TagHoldsClient.parse_common_project_path)
+    common_location_path = staticmethod(TagHoldsClient.common_location_path)
+    parse_common_location_path = staticmethod(TagHoldsClient.parse_common_location_path)
 
     @classmethod
     def from_service_account_info(cls, info: dict, *args, **kwargs):
@@ -104,9 +99,9 @@ class TagBindingsAsyncClient:
             kwargs: Additional arguments to pass to the constructor.
 
         Returns:
-            TagBindingsAsyncClient: The constructed client.
+            TagHoldsAsyncClient: The constructed client.
         """
-        return TagBindingsClient.from_service_account_info.__func__(TagBindingsAsyncClient, info, *args, **kwargs)  # type: ignore
+        return TagHoldsClient.from_service_account_info.__func__(TagHoldsAsyncClient, info, *args, **kwargs)  # type: ignore
 
     @classmethod
     def from_service_account_file(cls, filename: str, *args, **kwargs):
@@ -120,9 +115,9 @@ class TagBindingsAsyncClient:
             kwargs: Additional arguments to pass to the constructor.
 
         Returns:
-            TagBindingsAsyncClient: The constructed client.
+            TagHoldsAsyncClient: The constructed client.
         """
-        return TagBindingsClient.from_service_account_file.__func__(TagBindingsAsyncClient, filename, *args, **kwargs)  # type: ignore
+        return TagHoldsClient.from_service_account_file.__func__(TagHoldsAsyncClient, filename, *args, **kwargs)  # type: ignore
 
     from_service_account_json = from_service_account_file
 
@@ -160,30 +155,30 @@ class TagBindingsAsyncClient:
         Raises:
             google.auth.exceptions.MutualTLSChannelError: If any errors happen.
         """
-        return TagBindingsClient.get_mtls_endpoint_and_cert_source(client_options)  # type: ignore
+        return TagHoldsClient.get_mtls_endpoint_and_cert_source(client_options)  # type: ignore
 
     @property
-    def transport(self) -> TagBindingsTransport:
+    def transport(self) -> TagHoldsTransport:
         """Returns the transport used by the client instance.
 
         Returns:
-            TagBindingsTransport: The transport used by the client instance.
+            TagHoldsTransport: The transport used by the client instance.
         """
         return self._client.transport
 
     get_transport_class = functools.partial(
-        type(TagBindingsClient).get_transport_class, type(TagBindingsClient)
+        type(TagHoldsClient).get_transport_class, type(TagHoldsClient)
     )
 
     def __init__(
         self,
         *,
         credentials: Optional[ga_credentials.Credentials] = None,
-        transport: Union[str, TagBindingsTransport] = "grpc_asyncio",
+        transport: Union[str, TagHoldsTransport] = "grpc_asyncio",
         client_options: Optional[ClientOptions] = None,
         client_info: gapic_v1.client_info.ClientInfo = DEFAULT_CLIENT_INFO,
     ) -> None:
-        """Instantiates the tag bindings client.
+        """Instantiates the tag holds client.
 
         Args:
             credentials (Optional[google.auth.credentials.Credentials]): The
@@ -191,7 +186,7 @@ class TagBindingsAsyncClient:
                 credentials identify the application to the service; if none
                 are specified, the client will attempt to ascertain the
                 credentials from the environment.
-            transport (Union[str, ~.TagBindingsTransport]): The
+            transport (Union[str, ~.TagHoldsTransport]): The
                 transport to use. If set to None, a transport is chosen
                 automatically.
             client_options (ClientOptions): Custom options for the client. It
@@ -215,148 +210,25 @@ class TagBindingsAsyncClient:
             google.auth.exceptions.MutualTlsChannelError: If mutual TLS transport
                 creation failed for any reason.
         """
-        self._client = TagBindingsClient(
+        self._client = TagHoldsClient(
             credentials=credentials,
             transport=transport,
             client_options=client_options,
             client_info=client_info,
         )
 
-    async def list_tag_bindings(
+    async def create_tag_hold(
         self,
-        request: Optional[Union[tag_bindings.ListTagBindingsRequest, dict]] = None,
+        request: Optional[Union[tag_holds.CreateTagHoldRequest, dict]] = None,
         *,
         parent: Optional[str] = None,
-        retry: OptionalRetry = gapic_v1.method.DEFAULT,
-        timeout: Union[float, object] = gapic_v1.method.DEFAULT,
-        metadata: Sequence[Tuple[str, str]] = (),
-    ) -> pagers.ListTagBindingsAsyncPager:
-        r"""Lists the TagBindings for the given Google Cloud resource, as
-        specified with ``parent``.
-
-        NOTE: The ``parent`` field is expected to be a full resource
-        name:
-        https://cloud.google.com/apis/design/resource_names#full_resource_name
-
-        .. code-block:: python
-
-            # This snippet has been automatically generated and should be regarded as a
-            # code template only.
-            # It will require modifications to work:
-            # - It may require correct/in-range values for request initialization.
-            # - It may require specifying regional endpoints when creating the service
-            #   client as shown in:
-            #   https://googleapis.dev/python/google-api-core/latest/client_options.html
-            from google.cloud import resourcemanager_v3
-
-            async def sample_list_tag_bindings():
-                # Create a client
-                client = resourcemanager_v3.TagBindingsAsyncClient()
-
-                # Initialize request argument(s)
-                request = resourcemanager_v3.ListTagBindingsRequest(
-                    parent="parent_value",
-                )
-
-                # Make the request
-                page_result = client.list_tag_bindings(request=request)
-
-                # Handle the response
-                async for response in page_result:
-                    print(response)
-
-        Args:
-            request (Optional[Union[google.cloud.resourcemanager_v3.types.ListTagBindingsRequest, dict]]):
-                The request object. The request message to list all
-                TagBindings for a parent.
-            parent (:class:`str`):
-                Required. The full resource name of a
-                resource for which you want to list
-                existing TagBindings. E.g.
-                "//cloudresourcemanager.googleapis.com/projects/123"
-
-                This corresponds to the ``parent`` field
-                on the ``request`` instance; if ``request`` is provided, this
-                should not be set.
-            retry (google.api_core.retry.Retry): Designation of what errors, if any,
-                should be retried.
-            timeout (float): The timeout for this request.
-            metadata (Sequence[Tuple[str, str]]): Strings which should be
-                sent along with the request as metadata.
-
-        Returns:
-            google.cloud.resourcemanager_v3.services.tag_bindings.pagers.ListTagBindingsAsyncPager:
-                The ListTagBindings response.
-                Iterating over this object will yield
-                results and resolve additional pages
-                automatically.
-
-        """
-        # Create or coerce a protobuf request object.
-        # Quick check: If we got a request object, we should *not* have
-        # gotten any keyword arguments that map to the request.
-        has_flattened_params = any([parent])
-        if request is not None and has_flattened_params:
-            raise ValueError(
-                "If the `request` argument is set, then none of "
-                "the individual field arguments should be set."
-            )
-
-        request = tag_bindings.ListTagBindingsRequest(request)
-
-        # If we have keyword arguments corresponding to fields on the
-        # request, apply these.
-        if parent is not None:
-            request.parent = parent
-
-        # Wrap the RPC method; this adds retry and timeout information,
-        # and friendly error handling.
-        rpc = gapic_v1.method_async.wrap_method(
-            self._client._transport.list_tag_bindings,
-            default_retry=retries.Retry(
-                initial=0.1,
-                maximum=60.0,
-                multiplier=1.3,
-                predicate=retries.if_exception_type(
-                    core_exceptions.ServiceUnavailable,
-                ),
-                deadline=60.0,
-            ),
-            default_timeout=60.0,
-            client_info=DEFAULT_CLIENT_INFO,
-        )
-
-        # Send the request.
-        response = await rpc(
-            request,
-            retry=retry,
-            timeout=timeout,
-            metadata=metadata,
-        )
-
-        # This method is paged; wrap the response in a pager, which provides
-        # an `__aiter__` convenience method.
-        response = pagers.ListTagBindingsAsyncPager(
-            method=rpc,
-            request=request,
-            response=response,
-            metadata=metadata,
-        )
-
-        # Done; return the response.
-        return response
-
-    async def create_tag_binding(
-        self,
-        request: Optional[Union[tag_bindings.CreateTagBindingRequest, dict]] = None,
-        *,
-        tag_binding: Optional[tag_bindings.TagBinding] = None,
+        tag_hold: Optional[tag_holds.TagHold] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
         timeout: Union[float, object] = gapic_v1.method.DEFAULT,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> operation_async.AsyncOperation:
-        r"""Creates a TagBinding between a TagValue and a Google
-        Cloud resource.
+        r"""Creates a TagHold. Returns ALREADY_EXISTS if a TagHold with the
+        same resource and origin exists under the same TagValue.
 
         .. code-block:: python
 
@@ -369,16 +241,21 @@ class TagBindingsAsyncClient:
             #   https://googleapis.dev/python/google-api-core/latest/client_options.html
             from google.cloud import resourcemanager_v3
 
-            async def sample_create_tag_binding():
+            async def sample_create_tag_hold():
                 # Create a client
-                client = resourcemanager_v3.TagBindingsAsyncClient()
+                client = resourcemanager_v3.TagHoldsAsyncClient()
 
                 # Initialize request argument(s)
-                request = resourcemanager_v3.CreateTagBindingRequest(
+                tag_hold = resourcemanager_v3.TagHold()
+                tag_hold.holder = "holder_value"
+
+                request = resourcemanager_v3.CreateTagHoldRequest(
+                    parent="parent_value",
+                    tag_hold=tag_hold,
                 )
 
                 # Make the request
-                operation = client.create_tag_binding(request=request)
+                operation = client.create_tag_hold(request=request)
 
                 print("Waiting for operation to complete...")
 
@@ -388,14 +265,20 @@ class TagBindingsAsyncClient:
                 print(response)
 
         Args:
-            request (Optional[Union[google.cloud.resourcemanager_v3.types.CreateTagBindingRequest, dict]]):
+            request (Optional[Union[google.cloud.resourcemanager_v3.types.CreateTagHoldRequest, dict]]):
                 The request object. The request message to create a
-                TagBinding.
-            tag_binding (:class:`google.cloud.resourcemanager_v3.types.TagBinding`):
-                Required. The TagBinding to be
-                created.
+                TagHold.
+            parent (:class:`str`):
+                Required. The resource name of the TagHold's parent
+                TagValue. Must be of the form:
+                ``tagValues/{tag-value-id}``.
 
-                This corresponds to the ``tag_binding`` field
+                This corresponds to the ``parent`` field
+                on the ``request`` instance; if ``request`` is provided, this
+                should not be set.
+            tag_hold (:class:`google.cloud.resourcemanager_v3.types.TagHold`):
+                Required. The TagHold to be created.
+                This corresponds to the ``tag_hold`` field
                 on the ``request`` instance; if ``request`` is provided, this
                 should not be set.
             retry (google.api_core.retry.Retry): Designation of what errors, if any,
@@ -408,35 +291,43 @@ class TagBindingsAsyncClient:
             google.api_core.operation_async.AsyncOperation:
                 An object representing a long-running operation.
 
-                The result type for the operation will be :class:`google.cloud.resourcemanager_v3.types.TagBinding` A TagBinding represents a connection between a TagValue and a cloud
-                   resource Once a TagBinding is created, the TagValue
-                   is applied to all the descendants of the Google Cloud
-                   resource.
+                The result type for the operation will be :class:`google.cloud.resourcemanager_v3.types.TagHold` A TagHold represents the use of a TagValue that is not captured by
+                   TagBindings. If a TagValue has any TagHolds, deletion
+                   will be blocked. This resource is intended to be
+                   created in the same cloud location as the holder.
 
         """
         # Create or coerce a protobuf request object.
         # Quick check: If we got a request object, we should *not* have
         # gotten any keyword arguments that map to the request.
-        has_flattened_params = any([tag_binding])
+        has_flattened_params = any([parent, tag_hold])
         if request is not None and has_flattened_params:
             raise ValueError(
                 "If the `request` argument is set, then none of "
                 "the individual field arguments should be set."
             )
 
-        request = tag_bindings.CreateTagBindingRequest(request)
+        request = tag_holds.CreateTagHoldRequest(request)
 
         # If we have keyword arguments corresponding to fields on the
         # request, apply these.
-        if tag_binding is not None:
-            request.tag_binding = tag_binding
+        if parent is not None:
+            request.parent = parent
+        if tag_hold is not None:
+            request.tag_hold = tag_hold
 
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
         rpc = gapic_v1.method_async.wrap_method(
-            self._client._transport.create_tag_binding,
-            default_timeout=60.0,
+            self._client._transport.create_tag_hold,
+            default_timeout=None,
             client_info=DEFAULT_CLIENT_INFO,
+        )
+
+        # Certain fields should be provided within the metadata header;
+        # add these here.
+        metadata = tuple(metadata) + (
+            gapic_v1.routing_header.to_grpc_metadata((("parent", request.parent),)),
         )
 
         # Send the request.
@@ -451,23 +342,23 @@ class TagBindingsAsyncClient:
         response = operation_async.from_gapic(
             response,
             self._client._transport.operations_client,
-            tag_bindings.TagBinding,
-            metadata_type=tag_bindings.CreateTagBindingMetadata,
+            tag_holds.TagHold,
+            metadata_type=tag_holds.CreateTagHoldMetadata,
         )
 
         # Done; return the response.
         return response
 
-    async def delete_tag_binding(
+    async def delete_tag_hold(
         self,
-        request: Optional[Union[tag_bindings.DeleteTagBindingRequest, dict]] = None,
+        request: Optional[Union[tag_holds.DeleteTagHoldRequest, dict]] = None,
         *,
         name: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
         timeout: Union[float, object] = gapic_v1.method.DEFAULT,
         metadata: Sequence[Tuple[str, str]] = (),
     ) -> operation_async.AsyncOperation:
-        r"""Deletes a TagBinding.
+        r"""Deletes a TagHold.
 
         .. code-block:: python
 
@@ -480,17 +371,17 @@ class TagBindingsAsyncClient:
             #   https://googleapis.dev/python/google-api-core/latest/client_options.html
             from google.cloud import resourcemanager_v3
 
-            async def sample_delete_tag_binding():
+            async def sample_delete_tag_hold():
                 # Create a client
-                client = resourcemanager_v3.TagBindingsAsyncClient()
+                client = resourcemanager_v3.TagHoldsAsyncClient()
 
                 # Initialize request argument(s)
-                request = resourcemanager_v3.DeleteTagBindingRequest(
+                request = resourcemanager_v3.DeleteTagHoldRequest(
                     name="name_value",
                 )
 
                 # Make the request
-                operation = client.delete_tag_binding(request=request)
+                operation = client.delete_tag_hold(request=request)
 
                 print("Waiting for operation to complete...")
 
@@ -500,13 +391,13 @@ class TagBindingsAsyncClient:
                 print(response)
 
         Args:
-            request (Optional[Union[google.cloud.resourcemanager_v3.types.DeleteTagBindingRequest, dict]]):
+            request (Optional[Union[google.cloud.resourcemanager_v3.types.DeleteTagHoldRequest, dict]]):
                 The request object. The request message to delete a
-                TagBinding.
+                TagHold.
             name (:class:`str`):
-                Required. The name of the TagBinding. This is a String
-                of the form: ``tagBindings/{id}`` (e.g.
-                ``tagBindings/%2F%2Fcloudresourcemanager.googleapis.com%2Fprojects%2F123/tagValues/456``).
+                Required. The resource name of the TagHold to delete.
+                Must be of the form:
+                ``tagValues/{tag-value-id}/tagHolds/{tag-hold-id}``.
 
                 This corresponds to the ``name`` field
                 on the ``request`` instance; if ``request`` is provided, this
@@ -543,7 +434,7 @@ class TagBindingsAsyncClient:
                 "the individual field arguments should be set."
             )
 
-        request = tag_bindings.DeleteTagBindingRequest(request)
+        request = tag_holds.DeleteTagHoldRequest(request)
 
         # If we have keyword arguments corresponding to fields on the
         # request, apply these.
@@ -553,8 +444,8 @@ class TagBindingsAsyncClient:
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
         rpc = gapic_v1.method_async.wrap_method(
-            self._client._transport.delete_tag_binding,
-            default_timeout=60.0,
+            self._client._transport.delete_tag_hold,
+            default_timeout=None,
             client_info=DEFAULT_CLIENT_INFO,
         )
 
@@ -577,23 +468,22 @@ class TagBindingsAsyncClient:
             response,
             self._client._transport.operations_client,
             empty_pb2.Empty,
-            metadata_type=tag_bindings.DeleteTagBindingMetadata,
+            metadata_type=tag_holds.DeleteTagHoldMetadata,
         )
 
         # Done; return the response.
         return response
 
-    async def list_effective_tags(
+    async def list_tag_holds(
         self,
-        request: Optional[Union[tag_bindings.ListEffectiveTagsRequest, dict]] = None,
+        request: Optional[Union[tag_holds.ListTagHoldsRequest, dict]] = None,
         *,
         parent: Optional[str] = None,
         retry: OptionalRetry = gapic_v1.method.DEFAULT,
         timeout: Union[float, object] = gapic_v1.method.DEFAULT,
         metadata: Sequence[Tuple[str, str]] = (),
-    ) -> pagers.ListEffectiveTagsAsyncPager:
-        r"""Return a list of effective tags for the given Google Cloud
-        resource, as specified in ``parent``.
+    ) -> pagers.ListTagHoldsAsyncPager:
+        r"""Lists TagHolds under a TagValue.
 
         .. code-block:: python
 
@@ -606,31 +496,29 @@ class TagBindingsAsyncClient:
             #   https://googleapis.dev/python/google-api-core/latest/client_options.html
             from google.cloud import resourcemanager_v3
 
-            async def sample_list_effective_tags():
+            async def sample_list_tag_holds():
                 # Create a client
-                client = resourcemanager_v3.TagBindingsAsyncClient()
+                client = resourcemanager_v3.TagHoldsAsyncClient()
 
                 # Initialize request argument(s)
-                request = resourcemanager_v3.ListEffectiveTagsRequest(
+                request = resourcemanager_v3.ListTagHoldsRequest(
                     parent="parent_value",
                 )
 
                 # Make the request
-                page_result = client.list_effective_tags(request=request)
+                page_result = client.list_tag_holds(request=request)
 
                 # Handle the response
                 async for response in page_result:
                     print(response)
 
         Args:
-            request (Optional[Union[google.cloud.resourcemanager_v3.types.ListEffectiveTagsRequest, dict]]):
-                The request object. The request message to
-                ListEffectiveTags
+            request (Optional[Union[google.cloud.resourcemanager_v3.types.ListTagHoldsRequest, dict]]):
+                The request object. The request message for listing the
+                TagHolds under a TagValue.
             parent (:class:`str`):
-                Required. The full resource name of a
-                resource for which you want to list the
-                effective tags. E.g.
-                "//cloudresourcemanager.googleapis.com/projects/123"
+                Required. The resource name of the parent TagValue. Must
+                be of the form: ``tagValues/{tag-value-id}``.
 
                 This corresponds to the ``parent`` field
                 on the ``request`` instance; if ``request`` is provided, this
@@ -642,8 +530,8 @@ class TagBindingsAsyncClient:
                 sent along with the request as metadata.
 
         Returns:
-            google.cloud.resourcemanager_v3.services.tag_bindings.pagers.ListEffectiveTagsAsyncPager:
-                The response of ListEffectiveTags.
+            google.cloud.resourcemanager_v3.services.tag_holds.pagers.ListTagHoldsAsyncPager:
+                The ListTagHolds response.
                 Iterating over this object will yield
                 results and resolve additional pages
                 automatically.
@@ -659,7 +547,7 @@ class TagBindingsAsyncClient:
                 "the individual field arguments should be set."
             )
 
-        request = tag_bindings.ListEffectiveTagsRequest(request)
+        request = tag_holds.ListTagHoldsRequest(request)
 
         # If we have keyword arguments corresponding to fields on the
         # request, apply these.
@@ -669,9 +557,15 @@ class TagBindingsAsyncClient:
         # Wrap the RPC method; this adds retry and timeout information,
         # and friendly error handling.
         rpc = gapic_v1.method_async.wrap_method(
-            self._client._transport.list_effective_tags,
+            self._client._transport.list_tag_holds,
             default_timeout=None,
             client_info=DEFAULT_CLIENT_INFO,
+        )
+
+        # Certain fields should be provided within the metadata header;
+        # add these here.
+        metadata = tuple(metadata) + (
+            gapic_v1.routing_header.to_grpc_metadata((("parent", request.parent),)),
         )
 
         # Send the request.
@@ -684,7 +578,7 @@ class TagBindingsAsyncClient:
 
         # This method is paged; wrap the response in a pager, which provides
         # an `__aiter__` convenience method.
-        response = pagers.ListEffectiveTagsAsyncPager(
+        response = pagers.ListTagHoldsAsyncPager(
             method=rpc,
             request=request,
             response=response,
@@ -760,4 +654,4 @@ DEFAULT_CLIENT_INFO = gapic_v1.client_info.ClientInfo(
 )
 
 
-__all__ = ("TagBindingsAsyncClient",)
+__all__ = ("TagHoldsAsyncClient",)

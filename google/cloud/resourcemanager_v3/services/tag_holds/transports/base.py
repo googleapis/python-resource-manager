@@ -22,21 +22,19 @@ from google.api_core import gapic_v1, operations_v1
 from google.api_core import retry as retries
 import google.auth  # type: ignore
 from google.auth import credentials as ga_credentials  # type: ignore
-from google.iam.v1 import iam_policy_pb2  # type: ignore
-from google.iam.v1 import policy_pb2  # type: ignore
 from google.longrunning import operations_pb2  # type: ignore
 from google.oauth2 import service_account  # type: ignore
 
 from google.cloud.resourcemanager_v3 import gapic_version as package_version
-from google.cloud.resourcemanager_v3.types import projects
+from google.cloud.resourcemanager_v3.types import tag_holds
 
 DEFAULT_CLIENT_INFO = gapic_v1.client_info.ClientInfo(
     gapic_version=package_version.__version__
 )
 
 
-class ProjectsTransport(abc.ABC):
-    """Abstract transport class for Projects."""
+class TagHoldsTransport(abc.ABC):
+    """Abstract transport class for TagHolds."""
 
     AUTH_SCOPES = (
         "https://www.googleapis.com/auth/cloud-platform",
@@ -128,85 +126,18 @@ class ProjectsTransport(abc.ABC):
     def _prep_wrapped_messages(self, client_info):
         # Precompute the wrapped methods.
         self._wrapped_methods = {
-            self.get_project: gapic_v1.method.wrap_method(
-                self.get_project,
-                default_retry=retries.Retry(
-                    initial=0.1,
-                    maximum=60.0,
-                    multiplier=1.3,
-                    predicate=retries.if_exception_type(
-                        core_exceptions.ServiceUnavailable,
-                    ),
-                    deadline=60.0,
-                ),
-                default_timeout=60.0,
+            self.create_tag_hold: gapic_v1.method.wrap_method(
+                self.create_tag_hold,
+                default_timeout=None,
                 client_info=client_info,
             ),
-            self.list_projects: gapic_v1.method.wrap_method(
-                self.list_projects,
-                default_retry=retries.Retry(
-                    initial=0.1,
-                    maximum=60.0,
-                    multiplier=1.3,
-                    predicate=retries.if_exception_type(
-                        core_exceptions.ServiceUnavailable,
-                    ),
-                    deadline=60.0,
-                ),
-                default_timeout=60.0,
+            self.delete_tag_hold: gapic_v1.method.wrap_method(
+                self.delete_tag_hold,
+                default_timeout=None,
                 client_info=client_info,
             ),
-            self.search_projects: gapic_v1.method.wrap_method(
-                self.search_projects,
-                default_timeout=60.0,
-                client_info=client_info,
-            ),
-            self.create_project: gapic_v1.method.wrap_method(
-                self.create_project,
-                default_timeout=60.0,
-                client_info=client_info,
-            ),
-            self.update_project: gapic_v1.method.wrap_method(
-                self.update_project,
-                default_timeout=60.0,
-                client_info=client_info,
-            ),
-            self.move_project: gapic_v1.method.wrap_method(
-                self.move_project,
-                default_timeout=60.0,
-                client_info=client_info,
-            ),
-            self.delete_project: gapic_v1.method.wrap_method(
-                self.delete_project,
-                default_timeout=60.0,
-                client_info=client_info,
-            ),
-            self.undelete_project: gapic_v1.method.wrap_method(
-                self.undelete_project,
-                default_timeout=60.0,
-                client_info=client_info,
-            ),
-            self.get_iam_policy: gapic_v1.method.wrap_method(
-                self.get_iam_policy,
-                default_retry=retries.Retry(
-                    initial=0.1,
-                    maximum=60.0,
-                    multiplier=1.3,
-                    predicate=retries.if_exception_type(
-                        core_exceptions.ServiceUnavailable,
-                    ),
-                    deadline=60.0,
-                ),
-                default_timeout=60.0,
-                client_info=client_info,
-            ),
-            self.set_iam_policy: gapic_v1.method.wrap_method(
-                self.set_iam_policy,
-                default_timeout=60.0,
-                client_info=client_info,
-            ),
-            self.test_iam_permissions: gapic_v1.method.wrap_method(
-                self.test_iam_permissions,
+            self.list_tag_holds: gapic_v1.method.wrap_method(
+                self.list_tag_holds,
                 default_timeout=None,
                 client_info=client_info,
             ),
@@ -227,105 +158,30 @@ class ProjectsTransport(abc.ABC):
         raise NotImplementedError()
 
     @property
-    def get_project(
+    def create_tag_hold(
         self,
     ) -> Callable[
-        [projects.GetProjectRequest],
-        Union[projects.Project, Awaitable[projects.Project]],
+        [tag_holds.CreateTagHoldRequest],
+        Union[operations_pb2.Operation, Awaitable[operations_pb2.Operation]],
     ]:
         raise NotImplementedError()
 
     @property
-    def list_projects(
+    def delete_tag_hold(
         self,
     ) -> Callable[
-        [projects.ListProjectsRequest],
-        Union[projects.ListProjectsResponse, Awaitable[projects.ListProjectsResponse]],
+        [tag_holds.DeleteTagHoldRequest],
+        Union[operations_pb2.Operation, Awaitable[operations_pb2.Operation]],
     ]:
         raise NotImplementedError()
 
     @property
-    def search_projects(
+    def list_tag_holds(
         self,
     ) -> Callable[
-        [projects.SearchProjectsRequest],
+        [tag_holds.ListTagHoldsRequest],
         Union[
-            projects.SearchProjectsResponse, Awaitable[projects.SearchProjectsResponse]
-        ],
-    ]:
-        raise NotImplementedError()
-
-    @property
-    def create_project(
-        self,
-    ) -> Callable[
-        [projects.CreateProjectRequest],
-        Union[operations_pb2.Operation, Awaitable[operations_pb2.Operation]],
-    ]:
-        raise NotImplementedError()
-
-    @property
-    def update_project(
-        self,
-    ) -> Callable[
-        [projects.UpdateProjectRequest],
-        Union[operations_pb2.Operation, Awaitable[operations_pb2.Operation]],
-    ]:
-        raise NotImplementedError()
-
-    @property
-    def move_project(
-        self,
-    ) -> Callable[
-        [projects.MoveProjectRequest],
-        Union[operations_pb2.Operation, Awaitable[operations_pb2.Operation]],
-    ]:
-        raise NotImplementedError()
-
-    @property
-    def delete_project(
-        self,
-    ) -> Callable[
-        [projects.DeleteProjectRequest],
-        Union[operations_pb2.Operation, Awaitable[operations_pb2.Operation]],
-    ]:
-        raise NotImplementedError()
-
-    @property
-    def undelete_project(
-        self,
-    ) -> Callable[
-        [projects.UndeleteProjectRequest],
-        Union[operations_pb2.Operation, Awaitable[operations_pb2.Operation]],
-    ]:
-        raise NotImplementedError()
-
-    @property
-    def get_iam_policy(
-        self,
-    ) -> Callable[
-        [iam_policy_pb2.GetIamPolicyRequest],
-        Union[policy_pb2.Policy, Awaitable[policy_pb2.Policy]],
-    ]:
-        raise NotImplementedError()
-
-    @property
-    def set_iam_policy(
-        self,
-    ) -> Callable[
-        [iam_policy_pb2.SetIamPolicyRequest],
-        Union[policy_pb2.Policy, Awaitable[policy_pb2.Policy]],
-    ]:
-        raise NotImplementedError()
-
-    @property
-    def test_iam_permissions(
-        self,
-    ) -> Callable[
-        [iam_policy_pb2.TestIamPermissionsRequest],
-        Union[
-            iam_policy_pb2.TestIamPermissionsResponse,
-            Awaitable[iam_policy_pb2.TestIamPermissionsResponse],
+            tag_holds.ListTagHoldsResponse, Awaitable[tag_holds.ListTagHoldsResponse]
         ],
     ]:
         raise NotImplementedError()
@@ -344,4 +200,4 @@ class ProjectsTransport(abc.ABC):
         raise NotImplementedError()
 
 
-__all__ = ("ProjectsTransport",)
+__all__ = ("TagHoldsTransport",)
